@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yboumlak <yboumlak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 17:28:13 by yboumlak          #+#    #+#             */
-/*   Updated: 2023/12/10 23:49:22 by yboumlak         ###   ########.fr       */
+/*   Created: 2024/09/20 15:41:48 by hbrahimi          #+#    #+#             */
+/*   Updated: 2024/10/05 17:20:44 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef PARSING_H
+# define PARSING_H
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
+# include "../get_next_line/get_next_line.h"
+# include "../libft/libft.h"
+# include <stdbool.h>
+# include <fcntl.h>
 
-	i = 0;
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
-/*
-int	main(void)
-{
-	printf("%zu", ft_strlen("Youssef"));
-}
-*/
+
+#endif

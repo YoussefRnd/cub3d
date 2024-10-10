@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 10:31:55 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/10 10:34:57 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:32:34 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,10 @@ int	ft_strcmp(const char *s1, const char *s2)
 		s2++;
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
+}
+
+void free_and_set_to_null(void **ptr)
+{
+    free(*ptr);
+    *ptr = NULL;
 }

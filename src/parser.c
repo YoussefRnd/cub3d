@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/13 07:45:35 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/13 16:54:30 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ bool	check_validity_of_file(int fd)
 
 bool	valid_map_line(char *str)
 {
+	// printf("inside of the valid_map_line func [%s]", str);
 	while (*str)
 	{
 		if (*str != '0' && *str != '1' && *str != 'N' && *str != 'S'
@@ -279,6 +280,66 @@ bool	all_good(t_components *comps)
 		return (false);
 }
 
+char	*remove_newline(char *line)
+{
+	int		len;
+	char	*temp;
+
+	len = ft_strlen(line);
+	temp = malloc(len);
+	if (!temp)
+		return (NULL);
+	ft_strlcpy(temp, line, len);
+	if (len > 0 && temp[len - 1] == '\n')
+		temp[len - 1] = '\0';
+	return temp;
+}
+
+void	add_to_list(t_map **head, char *new_line)
+{
+	t_map	*new_node;
+	t_map	*current;
+
+	new_node = malloc(sizeof(t_map));
+	if (!new_node)
+		return ;
+	new_node->line = ft_strdup(new_line);
+	if (!new_node->line)
+	{
+		free(new_node);
+		return ;
+	}
+	new_node->next = NULL;
+	if (*head == NULL)
+		*head = new_node;
+	else
+	{
+		current = *head;
+		while (current->next != NULL)
+		{
+			current = current->next;
+		}
+		current->next = new_node;
+	}
+}
+
+bool	retrieve_map(int fd, t_components *comps)
+{
+	char	*line;
+	char	*temp;
+
+	while ((line = get_next_line(fd)))
+	{
+		temp = remove_newline(line);
+		free_and_set_to_null(&line);
+		if (detect_type(temp) != MAP)
+			return_bool_nd_free(false, &temp);
+		add_to_list(&comps->map, temp);
+		free_and_set_to_null(&temp);
+	}
+	return true;
+}
+
 bool	fill_it(int fd, t_components *comps)
 {
 	char	*line;
@@ -294,15 +355,20 @@ bool	fill_it(int fd, t_components *comps)
 			free_and_set_to_null(&temp);
 			continue ;
 		}
+		printf("[%s\n]", temp);
 		info_type = detect_type(temp);
 		if (info_type == MAP)
 		{
+			if (!retrieve_map(fd, comps))
+				return (return_bool_nd_free(false, &temp));
 			if (all_good(comps))
 				return (return_bool_nd_free(true, &temp));
 			return (return_bool_nd_free(false, &temp));
 		}
 		else if (info_type == INVALID)
+		{
 			return (return_bool_nd_free(false, &temp));
+		}
 		if (!fill_container(info_type, temp, comps))
 			return (return_bool_nd_free(false, &temp));
 	}
@@ -318,7 +384,7 @@ void	set_all_to_null(t_components *comps)
 	comps->west_texture = NULL;
 	comps->north_texture = NULL;
 	comps->south_texture = NULL;
-	comps->map = false;
+	comps->map = NULL;
 }
 
 void	print_components(const t_components *components)
@@ -337,13 +403,23 @@ void	print_components(const t_components *components)
 	printf("North texture: %s\n", components->north_texture);
 	printf("South texture: %s\n", components->south_texture);
 }
-
-void	parse_the_file(char *path)
+// bool	check_validity_of_map(int fd)
+// {
+// }
+void print_list(t_map *head)
 {
-	int				fd;
-	t_components	*comps;
+	t_map *current = head;
+	while (current != NULL) {
+		printf("%s\n", current->line);
+		current = current->next;
+	}
+}
 
-	comps = malloc(sizeof(t_components));
+void	parse_the_file(char *path, t_components *comps)
+{
+	int	fd;
+
+	// TODO free comps on failure
 	set_all_to_null(comps);
 	fd = open_file_and_return_fd(path);
 	if (!check_validity_of_file(fd))
@@ -351,12 +427,13 @@ void	parse_the_file(char *path)
 	if (!fill_it(fd, comps))
 	{
 		perror("Error");
-		// return ;
+		return ;
 	}
+	// if (!check_validity_of_map(fd))
+	// {
+	// 	perror("Error");
+	// 	return ;
+	// }
 	print_components(comps);
+	print_list(comps->map);
 }
-
-// bool check_validity_of_map(int fd)
-// {
-
-// }

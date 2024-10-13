@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 10:31:55 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/12 18:10:30 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/13 08:48:16 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ char	*trim_white_spaces(char *str)
 	if (str == NULL)
 		return (NULL);
 	start = 0;
-	while (str[start] && (str[start] == ' ' || str[start] == '\t'))
+	while (str[start] && (str[start] == ' ' || str[start] == '\t' || str[start] == '\n'))
 		start++;
 	end = ft_strlen(str) - 1;
-	while (end > start && (str[end] == ' ' || str[end] == '\t'))
+	while (end > start && (str[end] == ' ' || str[end] == '\t' || str[end] == '\n'))
 		end--;
 	trimmed_str = malloc(end - start + 2);
 	if (trimmed_str == NULL)

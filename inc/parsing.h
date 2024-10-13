@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:48 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/12 18:22:35 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/13 16:22:45 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ typedef struct s_colors
 	unsigned char	blue;
 }					t_colors;
 
+typedef struct s_map
+{
+	char			*line;
+	struct s_map	*next;
+}					t_map;
+
 typedef struct s_components_list
 {
 	t_colors		*floor_color;
@@ -46,13 +52,13 @@ typedef struct s_components_list
 	char			*east_texture;
 	char			*north_texture;
 	char			*south_texture;
-	bool			map;
+	t_map			*map;
 }					t_components;
 
 int					ft_strcmp(const char *s1, const char *s2);
 void				free_and_set_to_null(char **ptr);
 char				*trim_white_spaces(char *str);
 int					ft_super_atoi(const char *str);
-void				parse_the_file(char *path);
+void				parse_the_file(char *path, t_components *comps);
 
 #endif

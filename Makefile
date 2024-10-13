@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 SRC_DIR = src
 OBJ_DIR = obj
 NAME = cub3d

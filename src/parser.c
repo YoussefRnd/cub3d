@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/12 18:25:44 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/13 07:45:35 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,12 +343,16 @@ void	parse_the_file(char *path)
 	int				fd;
 	t_components	*comps;
 
-	comps = malloc(sizeof(t_components *));
+	comps = malloc(sizeof(t_components));
 	set_all_to_null(comps);
 	fd = open_file_and_return_fd(path);
 	if (!check_validity_of_file(fd))
 		return ;
-	fill_it(fd, comps);
+	if (!fill_it(fd, comps))
+	{
+		perror("Error");
+		// return ;
+	}
 	print_components(comps);
 }
 

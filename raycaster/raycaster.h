@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:54:15 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/05 13:26:14 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:35:12 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,25 @@
 # define RAYCASTER_H
 
 # include "../inc/cub3d.h"
+
+typedef struct s_bresenham_vars
+{
+	int	dx;
+	int	sx;
+	int	dy;
+	int	sy;
+	int	err;
+	int	e2;
+}		t_bresenham_vars;
+
+typedef struct s_line
+{
+	int	x0;
+	int	y0;
+	int	x1;
+	int	y1;
+	int	color;
+}		t_line;
 
 void	init_window(t_win *win);
 void	draw_map(t_game *game);
@@ -23,5 +42,7 @@ void	init_events(t_game *game);
 
 void	key_hook(mlx_key_data_t key, void *param);
 void	mlx_close(void *param);
+
+void	cast_ray(t_game *game);
 
 #endif

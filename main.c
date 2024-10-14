@@ -6,42 +6,44 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/03 12:50:38 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/13 13:07:51 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/cub3d.h"
 #include "raycaster/raycaster.h"
 
-void init_map(t_map *map)
+void	init_map(t_map *map)
 {
+	char	*temp_map[10] = {"1111111111", "1000001001", "1110000101",
+			"1000001111", "1000N00001", "1000000001", "1111000001",
+			"1000000101", "1110000001", "1111111111"};
+
 	map->size.x = 10;
 	map->size.y = 10;
-	char *temp_map[10] = {
-		"1111111111",
-		"1000000001",
-		"1110000001",
-		"1000001111",
-		"1000N00001",
-		"1000000001",
-		"1111000001",
-		"1000000101",
-		"1110000001",
-		"1111111111"
-	};
 	map->grid = malloc(map->size.y * sizeof(char *));
 	for (int i = 0; i < map->size.y; i++)
 	{
-		map->grid[i] = malloc((map->size.x + 1) * sizeof(char)); 
+		map->grid[i] = malloc((map->size.x + 1) * sizeof(char));
 		strcpy(map->grid[i], temp_map[i]);
 	}
 }
 
-void init_player(t_player *player)
+void	init_player(t_player *player)
 {
 	player->pos.x = 4;
 	player->pos.y = 4;
+	player->pos_in_pix.x = player->pos.x * (TILE_SIZE + 1) + (TILE_SIZE / 2);
+	player->pos_in_pix.y = player->pos.y * (TILE_SIZE + 1) + (TILE_SIZE / 2);
 	player->orientation = 'N';
+	if (player->orientation == 'N')
+		player->angle = 270 * (M_PI / 180);
+	else if (player->orientation == 'E')
+		player->angle = 0;
+	else if (player->orientation == 'S')
+		player->angle = 90 * (M_PI / 180);
+	else if (player->orientation == 'W')
+		player->angle = 180 * (M_PI / 180);
 }
 int	main(void)
 {
@@ -52,6 +54,7 @@ int	main(void)
 	init_player(&game.player);
 	draw_map(&game);
 	draw_player(&game);
+	// cast_ray(&game);
 	init_events(&game);
 	mlx_loop(game.win.mlx);
 }

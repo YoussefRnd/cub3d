@@ -1,22 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_game.c                                        :+:      :+:    :+:   */
+/*   cast_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 16:22:49 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/10 13:04:21 by yboumlak         ###   ########.fr       */
+/*   Created: 2024/10/11 16:11:21 by yboumlak          #+#    #+#             */
+/*   Updated: 2024/10/13 13:07:48 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 #include "raycaster.h"
 
-void	init_window(t_win *win)
-{
-	win->title = "Cub3D";
-	win->mlx = mlx_init(WIDTH, HEIGHT, win->title, false);
-	if (!win->mlx)
-		exit(EXIT_FAILURE);
-}

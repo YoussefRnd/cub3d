@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 19:45:20 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/08 17:38:14 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/13 10:24:31 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,42 +28,70 @@ void	mlx_close(void *param)
 	exit(EXIT_SUCCESS);
 }
 
-int is_collision(t_game *game, t_pos next_pos_in_pix)
+int	is_collision(t_game *game, t_pos next_pos)
 {
-	if (game->map.grid[(int)round(next_pos_in_pix.y / TILE_SIZE)][(int)round(next_pos_in_pix.x + (PLAYER_SIZE / 2) / TILE_SIZE)] == '1')
-	{
-		printf("collision\n");
+	int top_left_x, top_left_y, top_right_x, top_right_y, bottom_left_x,
+		bottom_left_y, bottom_right_x, bottom_right_y;
+	top_left_x = (int)round(next_pos.x - PLAYER_SIZE / 2);
+	top_left_y = (int)round(next_pos.y - PLAYER_SIZE / 2);
+	top_right_x = (int)round(next_pos.x + PLAYER_SIZE / 2);
+	top_right_y = (int)round(next_pos.y - PLAYER_SIZE / 2);
+	bottom_left_x = (int)round(next_pos.x - PLAYER_SIZE / 2);
+	bottom_left_y = (int)round(next_pos.y + PLAYER_SIZE / 2);
+	bottom_right_x = (int)round(next_pos.x + PLAYER_SIZE / 2);
+	bottom_right_y = (int)round(next_pos.y + PLAYER_SIZE / 2);
+	if (game->map.grid[top_left_y / (TILE_SIZE + 1)][top_left_x / (TILE_SIZE
+			+ 1)] == '1' || game->map.grid[top_right_y / (TILE_SIZE
+			+ 1)][top_right_x / (TILE_SIZE + 1)] == '1'
+		|| game->map.grid[bottom_left_y / (TILE_SIZE + 1)][bottom_left_x
+		/ (TILE_SIZE + 1)] == '1' || game->map.grid[bottom_right_y / (TILE_SIZE
+			+ 1)][bottom_right_x / (TILE_SIZE + 1)] == '1')
 		return (1);
-	}
 	return (0);
 }
 
 void	key_hook(mlx_key_data_t kdata, void *param)
 {
 	t_game	*game;
-	t_pos	next_pos;
+	t_pos	next_pos_in_pix;
 
 	game = (t_game *)param;
-	next_pos = game->player.pos_in_pix;
+	next_pos_in_pix = game->player.pos_in_pix;
 	if (kdata.key == MLX_KEY_ESCAPE && kdata.action == MLX_PRESS)
 		mlx_close(game);
-	else if (kdata.key == MLX_KEY_UP && (kdata.action == MLX_PRESS
-			|| kdata.action == MLX_REPEAT))
-		next_pos.y -= 0.1;
-	else if (kdata.key == MLX_KEY_DOWN && (kdata.action == MLX_PRESS
-			|| kdata.action == MLX_REPEAT))
-		next_pos.y += 0.1;
-	else if (kdata.key == MLX_KEY_LEFT && (kdata.action == MLX_PRESS
-			|| kdata.action == MLX_REPEAT))
-		next_pos.x -= 0.1;
 	else if (kdata.key == MLX_KEY_RIGHT && (kdata.action == MLX_PRESS
 			|| kdata.action == MLX_REPEAT))
-		next_pos.x += 0.1;
-	if (!is_collision(game, next_pos))
-		game->player.pos = next_pos;
-
-	printf("x: %f, y: %f\n", game->player.pos.x, game->player.pos.y);
-	printf("grid: %c\n", game->map.grid[(int)game->player.pos.y][(int)game->player.pos.x]);
+		game->player.angle += 0.1;
+	else if (kdata.key == MLX_KEY_LEFT && (kdata.action == MLX_PRESS
+			|| kdata.action == MLX_REPEAT))
+		game->player.angle -= 0.1;
+	else if (kdata.key == MLX_KEY_W && (kdata.action == MLX_PRESS
+			|| kdata.action == MLX_REPEAT))
+	{
+		next_pos_in_pix.x += PLAYER_SPEED * cos(game->player.angle);
+		next_pos_in_pix.y += PLAYER_SPEED * sin(game->player.angle);
+	}
+	else if (kdata.key == MLX_KEY_S && (kdata.action == MLX_PRESS
+			|| kdata.action == MLX_REPEAT))
+	{
+		next_pos_in_pix.x -= PLAYER_SPEED * cos(game->player.angle);
+		next_pos_in_pix.y -= PLAYER_SPEED * sin(game->player.angle);
+	}
+	else if (kdata.key == MLX_KEY_A && (kdata.action == MLX_PRESS
+			|| kdata.action == MLX_REPEAT))
+	{
+		next_pos_in_pix.x += PLAYER_SPEED * sin(game->player.angle);
+		next_pos_in_pix.y -= PLAYER_SPEED * cos(game->player.angle);
+	}
+	else if (kdata.key == MLX_KEY_D && (kdata.action == MLX_PRESS
+			|| kdata.action == MLX_REPEAT))
+	{
+		next_pos_in_pix.x -= PLAYER_SPEED * sin(game->player.angle);
+		next_pos_in_pix.y += PLAYER_SPEED * cos(game->player.angle);
+	}
+	if (!is_collision(game, next_pos_in_pix))
+		game->player.pos_in_pix = next_pos_in_pix;
+	mlx_delete_image(game->win.mlx, game->win.mini_map);
 	draw_map(game);
 	draw_player(game);
 }

@@ -6,49 +6,51 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:21:15 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/08 17:33:04 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/13 13:25:13 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
+void	draw_tile(t_game *game, int x, int y, int color)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < TILE_SIZE)
+	{
+		j = 0;
+		while (j < TILE_SIZE)
+		{
+			mlx_put_pixel(game->win.mini_map, x * (TILE_SIZE + TILE_MARGIN) + j,
+				y * (TILE_SIZE + TILE_MARGIN) + i, color);
+			j++;
+		}
+		i++;
+	}
+}
+
 void	draw_map(t_game *game)
 {
 	int	x;
 	int	y;
-	int	i;
-	int	j;
+	int	color;
 
+	game->win.mini_map = mlx_new_image(game->win.mlx, WIDTH, HEIGHT);
+	if (!game->win.mini_map)
+		exit(EXIT_FAILURE);
 	y = 0;
 	while (y < game->map.size.y)
 	{
 		x = 0;
 		while (x < game->map.size.x)
 		{
-			i = 0;
-			while (i < TILE_SIZE)
-			{
-				j = 0;
-				while (j < TILE_SIZE)
-				{
-					if (game->map.grid[y][x] == '1')
-						mlx_put_pixel(game->win.mini_map, x * (TILE_SIZE + 1)
-							+ j, y * (TILE_SIZE + 1) + i, 0xFF0000FF);
-					else if (game->map.grid[y][x] == '0'
-						|| game->map.grid[y][x] == 'N'
-						|| game->map.grid[y][x] == 'S'
-						|| game->map.grid[y][x] == 'W'
-						|| game->map.grid[y][x] == 'E')
-					{
-						mlx_put_pixel(game->win.mini_map, x * (TILE_SIZE + 1)
-							+ j, y * (TILE_SIZE + 1) + i, 0xFFFFFFFF);
-						game->player.pos_in_pix.x = x * (TILE_SIZE + 1) + j;
-						game->player.pos_in_pix.y = y * (TILE_SIZE + 1) + i;
-					}
-					j++;
-				}
-				i++;
-			}
+			if (game->map.grid[y][x] == '1')
+				color = WALL_COLOR;
+			else
+				color = FLOOR_COLOR;
+			draw_tile(game, x, y, color);
 			x++;
 		}
 		y++;

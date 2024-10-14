@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/13 16:54:30 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/14 05:01:55 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,13 @@ bool	check_validity_of_file(int fd)
 
 bool	valid_map_line(char *str)
 {
-	// printf("inside of the valid_map_line func [%s]", str);
+	// printf("------>[%s]<-------\n", str);
+	if (ft_strlen(str) == 0)
+		return false;
 	while (*str)
 	{
 		if (*str != '0' && *str != '1' && *str != 'N' && *str != 'S'
-			&& *str != 'E' && *str != 'W')
+			&& *str != 'E' && *str != 'W' && *str != ' ')
 			return (false);
 		str++;
 	}
@@ -83,7 +85,13 @@ t_type	detect_type(char *str)
 	char	**arr;
 
 	arr = ft_split(str, ' ');
-	if ((!(ft_strcmp(arr[0], "NO"))) && arr[1])
+	if (!str)
+		return return_nd_free(INVALID, arr);
+	if (!arr[0])
+		return return_nd_free(INVALID, arr);
+	else if (valid_map_line(str))
+		return (return_nd_free(MAP, arr));
+	else if ((!(ft_strcmp(arr[0], "NO"))) && arr[1])
 		return (return_nd_free(NORTH, arr));
 	else if ((!(ft_strcmp(arr[0], "SO"))) && arr[1])
 		return (return_nd_free(SOUTH, arr));
@@ -95,8 +103,6 @@ t_type	detect_type(char *str)
 		return (return_nd_free(FLOOR, arr));
 	else if ((!(ft_strcmp(arr[0], "C"))) && arr[1])
 		return (return_nd_free(CEILING, arr));
-	else if (valid_map_line(str))
-		return (return_nd_free(MAP, arr));
 	else
 		return (return_nd_free(INVALID, arr));
 }
@@ -286,13 +292,15 @@ char	*remove_newline(char *line)
 	char	*temp;
 
 	len = ft_strlen(line);
+	if (len == 0)
+		return NULL;
 	temp = malloc(len);
 	if (!temp)
 		return (NULL);
 	ft_strlcpy(temp, line, len);
 	if (len > 0 && temp[len - 1] == '\n')
 		temp[len - 1] = '\0';
-	return temp;
+	return (temp);
 }
 
 void	add_to_list(t_map **head, char *new_line)
@@ -323,21 +331,27 @@ void	add_to_list(t_map **head, char *new_line)
 	}
 }
 
-bool	retrieve_map(int fd, t_components *comps)
+bool	retrieve_map(int fd, t_components *comps, char *line)
 {
-	char	*line;
+	char	*cleaned_line;
 	char	*temp;
 
+	cleaned_line = remove_newline(line);
+	add_to_list(&comps->map, cleaned_line);
+	free_and_set_to_null(&cleaned_line);
 	while ((line = get_next_line(fd)))
 	{
 		temp = remove_newline(line);
 		free_and_set_to_null(&line);
 		if (detect_type(temp) != MAP)
-			return_bool_nd_free(false, &temp);
+		{
+			// printf("[%s], %d", temp, detect_type(temp));
+			return (return_bool_nd_free(false, &temp));
+		}
 		add_to_list(&comps->map, temp);
 		free_and_set_to_null(&temp);
 	}
-	return true;
+	return (true);
 }
 
 bool	fill_it(int fd, t_components *comps)
@@ -349,28 +363,31 @@ bool	fill_it(int fd, t_components *comps)
 	while ((line = get_next_line(fd)))
 	{
 		temp = trim_white_spaces(line);
-		free_and_set_to_null(&line);
+		// free_and_set_to_null(&line);
 		if (ft_strlen(temp) == 0)
 		{
 			free_and_set_to_null(&temp);
 			continue ;
 		}
-		printf("[%s\n]", temp);
 		info_type = detect_type(temp);
 		if (info_type == MAP)
 		{
-			if (!retrieve_map(fd, comps))
-				return (return_bool_nd_free(false, &temp));
+			if (!retrieve_map(fd, comps, line))
+				return (free_and_set_to_null(&line), return_bool_nd_free(false,
+						&temp));
 			if (all_good(comps))
-				return (return_bool_nd_free(true, &temp));
-			return (return_bool_nd_free(false, &temp));
+				return (free_and_set_to_null(&line), return_bool_nd_free(true,
+						&temp));
+			return (free_and_set_to_null(&line), return_bool_nd_free(false,
+					&temp));
 		}
 		else if (info_type == INVALID)
-		{
-			return (return_bool_nd_free(false, &temp));
-		}
+			return (free_and_set_to_null(&line), return_bool_nd_free(false,
+					&temp));
 		if (!fill_container(info_type, temp, comps))
-			return (return_bool_nd_free(false, &temp));
+			return (free_and_set_to_null(&line), return_bool_nd_free(false,
+					&temp));
+		free_and_set_to_null(&line);
 	}
 	// ?to check later
 	return (false);
@@ -403,13 +420,19 @@ void	print_components(const t_components *components)
 	printf("North texture: %s\n", components->north_texture);
 	printf("South texture: %s\n", components->south_texture);
 }
-// bool	check_validity_of_map(int fd)
-// {
-// }
-void print_list(t_map *head)
+bool	check_validity_of_map(t_map *map)
 {
-	t_map *current = head;
-	while (current != NULL) {
+	bool	position;
+
+	position = false;
+}
+void	print_list(t_map *head)
+{
+	t_map	*current;
+
+	current = head;
+	while (current != NULL)
+	{
 		printf("%s\n", current->line);
 		current = current->next;
 	}
@@ -429,11 +452,11 @@ void	parse_the_file(char *path, t_components *comps)
 		perror("Error");
 		return ;
 	}
-	// if (!check_validity_of_map(fd))
-	// {
-	// 	perror("Error");
-	// 	return ;
-	// }
+	if (!check_validity_of_map(comps->map))
+	{
+		perror("Error");
+		return ;
+	}
 	print_components(comps);
 	print_list(comps->map);
 }

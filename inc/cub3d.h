@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/13 13:24:20 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:25:30 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@
 # include <unistd.h>
 
 # define TILE_SIZE 32
-#define TILE_MARGIN 1
+# define TILE_MARGIN 1
 # define PLAYER_SIZE 7
 # define PLAYER_SPEED 3
 # define FOV 60
 # define WIDTH 800
 # define HEIGHT 600
 
-#define WALL_COLOR 0xFF0000FF
-#define FLOOR_COLOR 0xFFFFFFFF
+# define WALL_COLOR 0xFF0000FF
+# define FLOOR_COLOR 0xFFFFFFFF
 
 typedef struct s_pos
 {
@@ -64,6 +64,10 @@ typedef struct s_ray
 {
 	double		angle;
 	double		distance;
+	t_pos		ver_inter;
+	t_pos		hor_inter;
+	char		ray_facing;
+
 }				t_ray;
 typedef struct s_game
 {

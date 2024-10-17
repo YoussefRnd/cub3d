@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/14 17:25:30 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/15 12:33:33 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,14 @@ typedef struct s_win
 typedef struct s_ray
 {
 	double		angle;
+	int			is_facing_down;
+	int			is_facing_right;
+	int			is_facing_up;
+	int			is_facing_left;
 	double		distance;
 	t_pos		ver_inter;
 	t_pos		hor_inter;
-	char		ray_facing;
+	t_pos		wall_hit;
 
 }				t_ray;
 typedef struct s_game

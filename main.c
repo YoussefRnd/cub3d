@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/13 13:07:51 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:12:24 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	init_player(t_player *player)
 {
 	player->pos.x = 4;
 	player->pos.y = 4;
-	player->pos_in_pix.x = player->pos.x * (TILE_SIZE + 1) + (TILE_SIZE / 2);
-	player->pos_in_pix.y = player->pos.y * (TILE_SIZE + 1) + (TILE_SIZE / 2);
+	player->pos_in_pix.x = player->pos.x * TILE_SIZE + (TILE_SIZE / 2);
+	player->pos_in_pix.y = player->pos.y * TILE_SIZE + (TILE_SIZE / 2);
 	player->orientation = 'N';
 	if (player->orientation == 'N')
 		player->angle = 270 * (M_PI / 180);
@@ -54,7 +54,7 @@ int	main(void)
 	init_player(&game.player);
 	draw_map(&game);
 	draw_player(&game);
-	// cast_ray(&game);
+	cast_rays(&game);
 	init_events(&game);
 	mlx_loop(game.win.mlx);
 }

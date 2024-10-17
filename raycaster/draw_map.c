@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:21:15 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/13 13:25:13 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/17 13:17:59 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	draw_tile(t_game *game, int x, int y, int color)
 		j = 0;
 		while (j < TILE_SIZE)
 		{
-			mlx_put_pixel(game->win.mini_map, x * (TILE_SIZE + TILE_MARGIN) + j,
-				y * (TILE_SIZE + TILE_MARGIN) + i, color);
+			mlx_put_pixel(game->win.mini_map, x * TILE_SIZE + j,
+				y * TILE_SIZE + i, color);
 			j++;
 		}
 		i++;

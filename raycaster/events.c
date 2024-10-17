@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 19:45:20 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/13 10:24:31 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:12:38 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ int	is_collision(t_game *game, t_pos next_pos)
 	bottom_left_y = (int)round(next_pos.y + PLAYER_SIZE / 2);
 	bottom_right_x = (int)round(next_pos.x + PLAYER_SIZE / 2);
 	bottom_right_y = (int)round(next_pos.y + PLAYER_SIZE / 2);
-	if (game->map.grid[top_left_y / (TILE_SIZE + 1)][top_left_x / (TILE_SIZE
-			+ 1)] == '1' || game->map.grid[top_right_y / (TILE_SIZE
-			+ 1)][top_right_x / (TILE_SIZE + 1)] == '1'
-		|| game->map.grid[bottom_left_y / (TILE_SIZE + 1)][bottom_left_x
-		/ (TILE_SIZE + 1)] == '1' || game->map.grid[bottom_right_y / (TILE_SIZE
-			+ 1)][bottom_right_x / (TILE_SIZE + 1)] == '1')
+	if (game->map.grid[top_left_y / TILE_SIZE][top_left_x / TILE_SIZE] == '1'
+		|| game->map.grid[top_right_y / TILE_SIZE][top_right_x
+		/ TILE_SIZE] == '1' || game->map.grid[bottom_left_y
+		/ TILE_SIZE][bottom_left_x / TILE_SIZE] == '1'
+		|| game->map.grid[bottom_right_y / TILE_SIZE][bottom_right_x
+		/ TILE_SIZE] == '1')
 		return (1);
 	return (0);
 }
@@ -94,4 +94,5 @@ void	key_hook(mlx_key_data_t kdata, void *param)
 	mlx_delete_image(game->win.mlx, game->win.mini_map);
 	draw_map(game);
 	draw_player(game);
+	cast_rays(game);
 }

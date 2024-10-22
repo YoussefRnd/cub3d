@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/15 12:33:33 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:06:50 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@
 # define TILE_MARGIN 1
 # define PLAYER_SIZE 7
 # define PLAYER_SPEED 3
-# define FOV 60
+# define FOV 60 * (M_PI / 180)
 # define WIDTH 800
 # define HEIGHT 600
+# define MINIMAP_SCALE 0.4
+# define MINIMAP_WIDTH WIDTH * MINIMAP_SCALE
+# define MINIMAP_HEIGHT HEIGHT * MINIMAP_SCALE
 
 # define WALL_COLOR 0xFF0000FF
 # define FLOOR_COLOR 0xFFFFFFFF
@@ -57,7 +60,7 @@ typedef struct s_win
 	char		*title;
 	void		*mlx;
 	mlx_image_t	*img;
-	mlx_image_t	*mini_map;
+	// mlx_image_t	*mini_map;
 }				t_win;
 
 typedef struct s_ray

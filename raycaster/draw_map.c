@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:21:15 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/17 13:17:59 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:30:22 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@ void	draw_tile(t_game *game, int x, int y, int color)
 {
 	int	i;
 	int	j;
+	int	scaled_tile_size;
 
+	scaled_tile_size = TILE_SIZE * MINIMAP_SCALE;
 	i = 0;
-	while (i < TILE_SIZE)
+	while (i < scaled_tile_size)
 	{
 		j = 0;
-		while (j < TILE_SIZE)
+		while (j < scaled_tile_size)
 		{
-			mlx_put_pixel(game->win.mini_map, x * TILE_SIZE + j,
-				y * TILE_SIZE + i, color);
+			mlx_put_pixel(game->win.img, x * scaled_tile_size + j, y
+				* scaled_tile_size + i, color);
 			j++;
 		}
 		i++;
@@ -37,8 +39,8 @@ void	draw_map(t_game *game)
 	int	y;
 	int	color;
 
-	game->win.mini_map = mlx_new_image(game->win.mlx, WIDTH, HEIGHT);
-	if (!game->win.mini_map)
+	game->win.img = mlx_new_image(game->win.mlx, WIDTH, HEIGHT);
+	if (!game->win.img)
 		exit(EXIT_FAILURE);
 	y = 0;
 	while (y < game->map.size.y)
@@ -55,5 +57,5 @@ void	draw_map(t_game *game)
 		}
 		y++;
 	}
-	mlx_image_to_window(game->win.mlx, game->win.mini_map, 0, 0);
+	mlx_image_to_window(game->win.mlx, game->win.img, 0, 0);
 }

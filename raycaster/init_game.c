@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:22:49 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/10 13:04:21 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/22 11:42:33 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,5 @@ void	init_window(t_win *win)
 	win->mlx = mlx_init(WIDTH, HEIGHT, win->title, false);
 	if (!win->mlx)
 		exit(EXIT_FAILURE);
+
 }

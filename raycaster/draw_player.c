@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:31:14 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/17 17:22:39 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:07:43 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	draw_line(t_game *game, t_line line)
 	bresenham.err = bresenham.dx + bresenham.dy;
 	while (1)
 	{
-		mlx_put_pixel(game->win.mini_map, line.x0, line.y0, line.color);
+		mlx_put_pixel(game->win.img, line.x0, line.y0, line.color);
 		if (line.x0 == line.x1 && line.y0 == line.y1)
 			break ;
 		bresenham.e2 = 2 * bresenham.err;
@@ -52,25 +52,30 @@ void	draw_player(t_game *game)
 	int		i;
 	int		j;
 	t_line	line;
+	int		scaled_player_size;
+	float	scaled_x;
+	float	scaled_y;
 
+	scaled_player_size = PLAYER_SIZE * MINIMAP_SCALE;
+	scaled_x = game->player.pos_in_pix.x * MINIMAP_SCALE;
+	scaled_y = game->player.pos_in_pix.y * MINIMAP_SCALE;
 	i = 0;
-	while (i < PLAYER_SIZE)
+	while (i < scaled_player_size)
 	{
 		j = 0;
-		while (j < PLAYER_SIZE)
+		while (j < scaled_player_size)
 		{
-			mlx_put_pixel(game->win.mini_map, game->player.pos_in_pix.x
-				- PLAYER_SIZE / 2 + i, game->player.pos_in_pix.y - PLAYER_SIZE
-				/ 2 + j, 0xFF00FFFF);
+			mlx_put_pixel(game->win.img, scaled_x - scaled_player_size / 2
+				+ i, scaled_y - scaled_player_size / 2 + j, 0xFF00FFFF);
 			j++;
 		}
 		i++;
 	}
-	line.x0 = game->player.pos_in_pix.x;
-	line.y0 = game->player.pos_in_pix.y;
-	line.x1 = game->player.pos_in_pix.x + cos(game->player.angle) * TILE_SIZE;
-	line.y1 = game->player.pos_in_pix.y + sin(game->player.angle) * TILE_SIZE;
+	line.x0 = scaled_x;
+	line.y0 = scaled_y;
+	line.x1 = scaled_x + cos(game->player.angle) * TILE_SIZE * MINIMAP_SCALE;
+	line.y1 = scaled_y + sin(game->player.angle) * TILE_SIZE * MINIMAP_SCALE;
 	line.color = 0xFF00FFFF;
 	draw_line(game, line);
-	mlx_image_to_window(game->win.mlx, game->win.mini_map, 0, 0);
+	mlx_image_to_window(game->win.mlx, game->win.img, 0, 0);
 }

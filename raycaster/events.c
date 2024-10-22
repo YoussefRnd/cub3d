@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 19:45:20 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/17 17:12:38 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:33:05 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ void	key_hook(mlx_key_data_t kdata, void *param)
 	}
 	if (!is_collision(game, next_pos_in_pix))
 		game->player.pos_in_pix = next_pos_in_pix;
-	mlx_delete_image(game->win.mlx, game->win.mini_map);
+
+	mlx_delete_image(game->win.mlx, game->win.img);
 	draw_map(game);
 	draw_player(game);
 	cast_rays(game);

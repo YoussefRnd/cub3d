@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/14 05:01:55 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:16:16 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ bool	valid_map_line(char *str)
 {
 	// printf("------>[%s]<-------\n", str);
 	if (ft_strlen(str) == 0)
-		return false;
+		return (false);
 	while (*str)
 	{
 		if (*str != '0' && *str != '1' && *str != 'N' && *str != 'S'
@@ -86,9 +86,9 @@ t_type	detect_type(char *str)
 
 	arr = ft_split(str, ' ');
 	if (!str)
-		return return_nd_free(INVALID, arr);
+		return (return_nd_free(INVALID, arr));
 	if (!arr[0])
-		return return_nd_free(INVALID, arr);
+		return (return_nd_free(INVALID, arr));
 	else if (valid_map_line(str))
 		return (return_nd_free(MAP, arr));
 	else if ((!(ft_strcmp(arr[0], "NO"))) && arr[1])
@@ -293,7 +293,7 @@ char	*remove_newline(char *line)
 
 	len = ft_strlen(line);
 	if (len == 0)
-		return NULL;
+		return (NULL);
 	temp = malloc(len);
 	if (!temp)
 		return (NULL);
@@ -420,11 +420,137 @@ void	print_components(const t_components *components)
 	printf("North texture: %s\n", components->north_texture);
 	printf("South texture: %s\n", components->south_texture);
 }
+// TODO write an algorithm about how to parse that map
+
+bool	adjacent_space(char *line)
+{
+	if (*line == ' ')
+	{
+		if (*(line - 1) != ' ' && *(line - 1) != '1')
+			return (false);
+		if (*(line + 1) != ' ' && *(line + 1) != '1' && *(line + 1) != '\0')
+			return (false);
+	}
+	return (true);
+}
+
+bool	treat_middle_line(char *line)
+{
+	while (*line && *line == ' ')
+		line++;
+	if (*line != '1')
+		return (false);
+	while (*line)
+	{
+		if (!adjacent_space(line))
+			return (false);
+		line++;
+	}
+	line--;
+	while (*line && *line == ' ')
+		line--;
+	if (*line != '1')
+		return (false);
+	return (true);
+}
+
+bool	treat_first_and_last(char *line)
+{
+	// printf("[%s]\n", line);
+	while (*line && *line == ' ')
+		line++;
+	while (*line)
+	{
+		if (*line != ' ' && *line != '1')
+			return (false);
+		line++;
+	}
+	return (true);
+}
+bool	is_a_position_char(char c)
+{
+	if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
+		return (true);
+	return (false);
+}
+bool	check_player_position(t_map *map)
+{
+	t_map	*current;
+	int		position_char_count;
+	int		i;
+
+	i = -1;
+	current = map;
+	position_char_count = 0;
+	while (current)
+	{
+		i = -1;
+		while (current->line[++i])
+		{
+			if (is_a_position_char(current->line[i]))
+				position_char_count++;
+		}
+		current = current->next;
+	}
+	if (position_char_count != 1)
+		return (false);
+	return (true);
+}
+
+char	**list_to_array(t_map *head)
+{
+	int		count;
+	t_map	*current;
+	char	**array;
+	int		i;
+
+	count = 0;
+	current = head;
+	while (current != NULL)
+	{
+		count++;
+		current = current->next;
+	}
+	array = (char **)malloc(sizeof(char *) * (count + 1));
+	current = head;
+	i = 0;
+	while (current != NULL)
+	{
+		array[i] = ft_strdup(current->line);
+		current = current->next;
+		i++;
+	}
+	array[i] = NULL;
+	return (array);
+}
+
+bool	valid_map(t_map *map)
+{
+	int		i;
+	int		j;
+	char	**map_arr;
+
+	map_arr = list_to_array(map);
+}
+
 bool	check_validity_of_map(t_map *map)
 {
-	bool	position;
+	t_map	*current;
 
-	position = false;
+	current = map->next;
+	if (!treat_first_and_last(map->line))
+		return (false);
+	while (current->next)
+	{
+		if (!treat_middle_line(current->line))
+			return (false);
+		current = current->next;
+	}
+	if (!treat_first_and_last(current->line))
+		return (false);
+	if (!check_player_position(map) || !valid_map(map))
+		return (false);
+	return (true);
 }
 void	print_list(t_map *head)
 {

@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/22 13:30:32 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:27:04 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,27 @@ void	init_player(t_player *player)
 	else if (player->orientation == 'W')
 		player->angle = 180 * (M_PI / 180);
 }
+void draw_background(t_game *game)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < HEIGHT)
+	{
+		j = 0;
+		while (j < WIDTH)
+		{
+			if (i < HEIGHT / 2)
+				mlx_put_pixel(game->win.img, j, i, 0x00FFFFFF);
+			else
+				mlx_put_pixel(game->win.img, j, i, 0x000000FF);
+			j++;
+		}
+		i++;
+	}
+}
+
 int	main(void)
 {
 	t_game	game;
@@ -52,9 +73,9 @@ int	main(void)
 	init_window(&game.win);
 	init_map(&game.map);
 	init_player(&game.player);
+	cast_rays(&game);
 	draw_map(&game);
 	draw_player(&game);
-	cast_rays(&game);
 	init_events(&game);
 	mlx_loop(game.win.mlx);
 }

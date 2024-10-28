@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 10:31:55 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/13 08:48:16 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:59:15 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,21 @@ int	ft_super_atoi(const char *str)
 	if (num < 0 || num > 255)
 		return (-1);
 	return (num);
+}
+
+char *ft_strncpy(char *dest, const char *src, size_t n)
+{
+	size_t i = 0;
+
+	while (i < n && src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return dest;
 }

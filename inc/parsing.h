@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:48 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/13 16:22:45 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:59:27 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
+# include "cub3d.h"
 # include <fcntl.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -60,5 +61,6 @@ void				free_and_set_to_null(char **ptr);
 char				*trim_white_spaces(char *str);
 int					ft_super_atoi(const char *str);
 void				parse_the_file(char *path, t_components *comps);
+char				*ft_strncpy(char *dest, const char *src, size_t n);
 
 #endif

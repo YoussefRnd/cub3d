@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/28 10:16:16 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:34:08 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -497,40 +497,147 @@ bool	check_player_position(t_map *map)
 	return (true);
 }
 
-char	**list_to_array(t_map *head)
-{
-	int		count;
-	t_map	*current;
-	char	**array;
-	int		i;
+// char	**list_to_array(t_map *head)
+// {
+// 	int		count;
+// 	t_map	*current;
+// 	char	**array;
+// 	int		i;
 
-	count = 0;
-	current = head;
-	while (current != NULL)
+// 	count = 0;
+// 	current = head;
+// 	while (current != NULL)
+// 	{
+// 		count++;
+// 		current = current->next;
+// 	}
+// 	array = (char **)malloc(sizeof(char *) * (count + 1));
+// 	current = head;
+// 	i = 0;
+// 	while (current != NULL)
+// 	{
+// 		array[i] = ft_strdup(current->line);
+// 		current = current->next;
+// 		i++;
+// 	}
+// 	array[i] = NULL;
+// 	return (array);
+// }
+
+char **list_to_array(t_map *head, int max_length)
+{
+    int count = 0;
+    t_map *current = head;
+    char **array;
+    int i;
+
+    while (current != NULL)
+    {
+        count++;
+        current = current->next;
+    }
+    array = (char **)malloc(sizeof(char *) * (count + 1));
+    current = head;
+    i = 0;
+    while (current != NULL)
+    {
+        array[i] = (char *)malloc(max_length + 1);
+        ft_strncpy(array[i], current->line, max_length);
+        int len = strlen(current->line);
+        if (len < max_length)
+            ft_memset(array[i] + len, '\0', max_length - len);
+        array[i][max_length] = '\0';
+        current = current->next;
+        i++;
+    }
+    array[i] = NULL;
+    return array;
+}
+
+void	determine_player_pos(t_pos *pos, char **arr)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	x = 0;
+	while (arr[y])
 	{
-		count++;
-		current = current->next;
+		x = 0;
+		while (arr[y][x])
+		{
+			if (is_a_position_char(arr[y][x]))
+			{
+				pos->y = y;
+				pos->x = x;
+				return ;
+			}
+			x++;
+		}
+		y++;
 	}
-	array = (char **)malloc(sizeof(char *) * (count + 1));
-	current = head;
-	i = 0;
-	while (current != NULL)
+}
+
+void	check_borders(char **map_arr, int x, int y, bool *out)
+{
+	if (!map_arr[y][x] || map_arr[y][x] == ' ')
 	{
-		array[i] = ft_strdup(current->line);
-		current = current->next;
-		i++;
+		*out = true;
+		return ;
 	}
-	array[i] = NULL;
-	return (array);
+	if (map_arr[y][x] == '1' || map_arr[y][x] == '2')
+		return ;
+	map_arr[y][x] = '2';
+	// down
+	if (map_arr[y + 1])
+		check_borders(map_arr, x, y + 1, out);
+	// right
+	check_borders(map_arr, x + 1, y, out);
+	// up
+	check_borders(map_arr, x , y - 1, out);
+	// left
+	check_borders(map_arr, x - 1, y, out);
+}
+
+int	get_max_string_length(t_map *head)
+{
+	int	max_length;
+	int	current_length;
+
+	max_length = 0;
+	while (head != NULL)
+	{
+		current_length = ft_strlen(head->line);
+		if (current_length > max_length)
+			max_length = current_length;
+		head = head->next;
+	}
+	return (max_length);
 }
 
 bool	valid_map(t_map *map)
 {
-	int		i;
-	int		j;
+	// int		i = 0;
+	int		max_length;
+	bool	*out;
 	char	**map_arr;
+	t_pos	player_pos;
 
-	map_arr = list_to_array(map);
+	// TODO free the double array and the bool when finished
+	out = malloc(sizeof(bool *));
+	*out = false;
+	max_length = get_max_string_length(map);
+	map_arr = list_to_array(map, max_length);
+	determine_player_pos(&player_pos, map_arr);
+	check_borders(map_arr, player_pos.x, player_pos.y, out);
+	// while(map_arr[i])
+	// {
+	// 	printf("%s\n", map_arr[i]);
+	// 	i++;
+	// }
+	if (*out)
+		return (false);
+	return (true);
 }
 
 bool	check_validity_of_map(t_map *map)

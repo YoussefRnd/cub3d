@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/08 17:32:42 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:55:30 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../lib/Libft/libft.h"
-# include "../lib/MLX42/include/MLX42/MLX42.h"
+// # include "../lib/Libft/libft.h"
+// # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
@@ -39,25 +39,25 @@ typedef struct s_player
 	char		orientation;
 }				t_player;
 
-typedef struct s_map
-{
-	char		**grid;
-	t_pos		size;
-}				t_map;
+// typedef struct s_map
+// {
+// 	char		**grid;
+// 	t_pos		size;
+// }				t_map;
 
 typedef struct s_win
 {
 	char		*title;
 	void		*mlx;
-	mlx_image_t	*img;
-	mlx_image_t	*mini_map;
+	// mlx_image_t	*img;
+	// mlx_image_t	*mini_map;
 }				t_win;
 
-typedef struct s_game
-{
-	t_player	player;
-	t_map		map;
-	t_win		win;
-}				t_game;
+// typedef struct s_game
+// {
+// 	t_player	player;
+// 	t_map		map;
+// 	t_win		win;
+// }				t_game;
 
 #endif

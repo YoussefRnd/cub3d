@@ -6,13 +6,13 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 20:49:16 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/12 18:19:06 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:41:13 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# include "../libft/libft.h"
+# include "../lib/Libft/libft.h"
 # include <stdlib.h>
 # include <unistd.h>
 

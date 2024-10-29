@@ -6,15 +6,15 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/28 13:55:30 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:06:35 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-// # include "../lib/Libft/libft.h"
-// # include "../lib/MLX42/include/MLX42/MLX42.h"
+# include "../lib/Libft/libft.h"
+# include "../lib/MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
@@ -22,9 +22,18 @@
 # include <unistd.h>
 
 # define TILE_SIZE 32
-# define PLAYER_SIZE 5
+# define TILE_MARGIN 1
+# define PLAYER_SIZE 7
+# define PLAYER_SPEED 3
+# define FOV 60 * (M_PI / 180)
 # define WIDTH 800
 # define HEIGHT 600
+# define MINIMAP_SCALE 0.4
+# define MINIMAP_WIDTH WIDTH * MINIMAP_SCALE
+# define MINIMAP_HEIGHT HEIGHT * MINIMAP_SCALE
+
+# define WALL_COLOR 0xFF0000FF
+# define FLOOR_COLOR 0xFFFFFFFF
 
 typedef struct s_pos
 {
@@ -37,27 +46,42 @@ typedef struct s_player
 	t_pos		pos;
 	t_pos		pos_in_pix;
 	char		orientation;
+	double		angle;
 }				t_player;
 
-// typedef struct s_map
-// {
-// 	char		**grid;
-// 	t_pos		size;
-// }				t_map;
+typedef struct s_map
+{
+	char		**grid;
+	t_pos		size;
+}				t_map;
 
 typedef struct s_win
 {
 	char		*title;
 	void		*mlx;
-	// mlx_image_t	*img;
-	// mlx_image_t	*mini_map;
+	mlx_image_t	*img;
+	mlx_image_t	*mini_map;
 }				t_win;
 
-// typedef struct s_game
-// {
-// 	t_player	player;
-// 	t_map		map;
-// 	t_win		win;
-// }				t_game;
+typedef struct s_ray
+{
+	double		angle;
+	int			is_facing_down;
+	int			is_facing_right;
+	int			is_facing_up;
+	int			is_facing_left;
+	double		distance;
+	t_pos		ver_inter;
+	t_pos		hor_inter;
+	t_pos		wall_hit;
+
+}				t_ray;
+typedef struct s_game
+{
+	t_player	player;
+	t_map		map;
+	t_win		win;
+	t_ray		ray;
+}				t_game;
 
 #endif

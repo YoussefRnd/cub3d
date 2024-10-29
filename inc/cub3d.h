@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/29 15:17:27 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:23:41 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # define TILE_SIZE 30
 # define PLAYER_SIZE 7
-# define PLAYER_SPEED 3
+# define PLAYER_SPEED 4
 # define FOV 60 * (M_PI / 180)
 # define WIDTH 1920
 # define HEIGHT 1080

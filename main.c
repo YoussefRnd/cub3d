@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/29 14:54:17 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:49:23 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,7 @@ int	main(void)
 	init_window(&game.win);
 	init_map(&game.map);
 	init_player(&game.player);
-	printf("player angle: %f\n", game.player.angle);
 	cast_rays(&game);
-	printf("player angle: %f\n", game.player.angle);
 	draw_map(&game);
 	draw_player(&game);
 	init_events(&game);

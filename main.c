@@ -6,13 +6,34 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/28 17:42:20 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/29 07:22:00 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/cub3d.h"
 #include "inc/parsing.h"
 #include "raycaster/raycaster.h"
+
+void draw_background(t_game *game)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < HEIGHT)
+	{
+		j = 0;
+		while (j < WIDTH)
+		{
+			if (i < HEIGHT / 2)
+				mlx_put_pixel(game->win.img, j, i, 0x00FFFFFF);
+			else
+				mlx_put_pixel(game->win.img, j, i, 0x000000FF);
+			j++;
+		}
+		i++;
+	}
+}
 
 void	init_map(t_map *map,int x,int y)
 {

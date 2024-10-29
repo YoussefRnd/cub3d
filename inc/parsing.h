@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:48 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/28 17:43:00 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/29 07:56:57 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int					ft_strcmp(const char *s1, const char *s2);
 void				free_and_set_to_null(char **ptr);
 char				*trim_white_spaces(char *str);
 int					ft_super_atoi(const char *str);
-void				parse_the_file(char *path, t_components *comps);
+bool				parse_the_file(char *path, t_components *comps);
 char				*ft_strncpy(char *dest, const char *src, size_t n);
 char				**list_to_array(t_mapp *head, int max_length);
 int					get_max_string_length(t_mapp *head);

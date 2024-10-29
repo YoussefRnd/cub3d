@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/28 16:39:24 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/29 07:57:34 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -671,7 +671,7 @@ void	print_list(t_mapp *head)
 	}
 }
 
-void	parse_the_file(char *path, t_components *comps)
+bool	parse_the_file(char *path, t_components *comps)
 {
 	int	fd;
 
@@ -679,17 +679,18 @@ void	parse_the_file(char *path, t_components *comps)
 	set_all_to_null(comps);
 	fd = open_file_and_return_fd(path);
 	if (!check_validity_of_file(fd))
-		return ;
+		return false;
 	if (!fill_it(fd, comps))
 	{
 		perror("Error");
-		return ;
+		return false;
 	}
 	if (!check_validity_of_map(comps->map))
 	{
 		perror("Error");
-		return ;
+		return false;
 	}
 	print_components(comps);
 	print_list(comps->map);
+	return true;
 }

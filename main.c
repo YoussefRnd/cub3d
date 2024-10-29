@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/29 07:22:00 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/29 08:27:32 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,25 @@ void	init_map(t_map *map,int x,int y)
 {
 	map->size.x = x;
 	map->size.y = y;
+}
+
+
+char	get_player_orientation(t_mapp *map)
+{
+	int i = 0;
+
+	while(map)
+	{
+		i = 0;
+		while(map->line[i])
+		{
+			if (is_a_position_char(map->line[i]))
+				return map->line[i];
+			i++;
+		}
+		map = map->next;
+	}
+	return 'N';
 }
 
 void	init_player(t_player *player, char **map)
@@ -74,7 +93,8 @@ int	main(int ac, char **av)
 	t_components comps;
 
 	(void)ac;
-	parse_the_file(av[1], &comps);
+	if (!(parse_the_file(av[1], &comps)))
+		return -1;
 	game.map.grid = list_to_array(comps.map, get_max_string_length(comps.map));
 	init_window(&game.win);
 	init_map(&game.map, get_max_string_length(comps.map), get_y(comps.map));

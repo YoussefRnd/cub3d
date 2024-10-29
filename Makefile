@@ -1,9 +1,9 @@
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -fsanitize=address
-SRC_DIR = src
+SRC_DIR = parser
 OBJ_DIR = obj
 NAME = cub3d
-LIBFT_DIR = libft
+LIBFT_DIR = lib/Libft
 
 SRCS = $(wildcard $(SRC_DIR)/*.c get_next_line/*.c) main.c
 OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))

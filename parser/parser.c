@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/28 14:34:08 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:03:40 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,21 +294,23 @@ char	*remove_newline(char *line)
 	len = ft_strlen(line);
 	if (len == 0)
 		return (NULL);
-	temp = malloc(len);
+	temp = malloc(len + 1);
 	if (!temp)
 		return (NULL);
-	ft_strlcpy(temp, line, len);
+	ft_strlcpy(temp, line, len + 1);
+	// printf("before:[%s]--->", temp);
 	if (len > 0 && temp[len - 1] == '\n')
 		temp[len - 1] = '\0';
+	// printf("after:[%s]\n", temp);
 	return (temp);
 }
 
-void	add_to_list(t_map **head, char *new_line)
+void	add_to_list(t_mapp **head, char *new_line)
 {
-	t_map	*new_node;
-	t_map	*current;
+	t_mapp	*new_node;
+	t_mapp	*current;
 
-	new_node = malloc(sizeof(t_map));
+	new_node = malloc(sizeof(t_mapp));
 	if (!new_node)
 		return ;
 	new_node->line = ft_strdup(new_line);
@@ -473,9 +475,9 @@ bool	is_a_position_char(char c)
 		return (true);
 	return (false);
 }
-bool	check_player_position(t_map *map)
+bool	check_player_position(t_mapp *map)
 {
-	t_map	*current;
+	t_mapp	*current;
 	int		position_char_count;
 	int		i;
 
@@ -497,10 +499,10 @@ bool	check_player_position(t_map *map)
 	return (true);
 }
 
-// char	**list_to_array(t_map *head)
+// char	**list_to_array(t_mapp *head)
 // {
 // 	int		count;
-// 	t_map	*current;
+// 	t_mapp	*current;
 // 	char	**array;
 // 	int		i;
 
@@ -524,10 +526,10 @@ bool	check_player_position(t_map *map)
 // 	return (array);
 // }
 
-char **list_to_array(t_map *head, int max_length)
+char **list_to_array(t_mapp *head, int max_length)
 {
     int count = 0;
-    t_map *current = head;
+    t_mapp *current = head;
     char **array;
     int i;
 
@@ -599,7 +601,7 @@ void	check_borders(char **map_arr, int x, int y, bool *out)
 	check_borders(map_arr, x - 1, y, out);
 }
 
-int	get_max_string_length(t_map *head)
+int	get_max_string_length(t_mapp *head)
 {
 	int	max_length;
 	int	current_length;
@@ -615,7 +617,7 @@ int	get_max_string_length(t_map *head)
 	return (max_length);
 }
 
-bool	valid_map(t_map *map)
+bool	valid_map(t_mapp *map)
 {
 	// int		i = 0;
 	int		max_length;
@@ -640,9 +642,9 @@ bool	valid_map(t_map *map)
 	return (true);
 }
 
-bool	check_validity_of_map(t_map *map)
+bool	check_validity_of_map(t_mapp *map)
 {
-	t_map	*current;
+	t_mapp	*current;
 
 	current = map->next;
 	if (!treat_first_and_last(map->line))
@@ -659,9 +661,9 @@ bool	check_validity_of_map(t_map *map)
 		return (false);
 	return (true);
 }
-void	print_list(t_map *head)
+void	print_list(t_mapp *head)
 {
-	t_map	*current;
+	t_mapp	*current;
 
 	current = head;
 	while (current != NULL)
@@ -671,7 +673,7 @@ void	print_list(t_map *head)
 	}
 }
 
-void	parse_the_file(char *path, t_components *comps)
+bool	parse_the_file(char *path, t_components *comps)
 {
 	int	fd;
 
@@ -679,17 +681,18 @@ void	parse_the_file(char *path, t_components *comps)
 	set_all_to_null(comps);
 	fd = open_file_and_return_fd(path);
 	if (!check_validity_of_file(fd))
-		return ;
+		return false;
 	if (!fill_it(fd, comps))
 	{
 		perror("Error");
-		return ;
+		return false;
 	}
 	if (!check_validity_of_map(comps->map))
 	{
 		perror("Error");
-		return ;
+		return false;
 	}
 	print_components(comps);
 	print_list(comps->map);
+	return true;
 }

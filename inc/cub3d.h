@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/27 19:53:58 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/28 19:58:18 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@
 # define FOV 60 * (M_PI / 180)
 # define WIDTH 1920
 # define HEIGHT 1080
+# define MINIMAP_WIDTH (WIDTH / 5)
+# define MINIMAP_HIGHT (HEIGHT / 5)
 
 # define WALL_COLOR 0xFF0000FF
 # define FLOOR_COLOR 0xFFFFFFFF
+# define PLAYER_COLOR 0x00FF00FF
 
 typedef struct s_pos
 {
@@ -48,6 +51,7 @@ typedef struct s_player
 typedef struct s_map
 {
 	char		**grid;
+	t_pos		view;
 	t_pos		size;
 }				t_map;
 

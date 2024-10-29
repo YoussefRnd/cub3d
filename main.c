@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/25 19:27:04 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:54:17 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	init_map(t_map *map)
 {
 	char	*temp_map[10] = {"1111111111", "1000001001", "1110000101",
-			"1000001111", "1000N00001", "1000000001", "1111000001",
+			"1000001111", "1000E00001", "1000000001", "1111000001",
 			"1000000101", "1110000001", "1111111111"};
 
 	map->size.x = 10;
@@ -35,7 +35,7 @@ void	init_player(t_player *player)
 	player->pos.y = 4;
 	player->pos_in_pix.x = player->pos.x * TILE_SIZE + (TILE_SIZE / 2);
 	player->pos_in_pix.y = player->pos.y * TILE_SIZE + (TILE_SIZE / 2);
-	player->orientation = 'N';
+	player->orientation = 'S';
 	if (player->orientation == 'N')
 		player->angle = 270 * (M_PI / 180);
 	else if (player->orientation == 'E')
@@ -73,7 +73,9 @@ int	main(void)
 	init_window(&game.win);
 	init_map(&game.map);
 	init_player(&game.player);
+	printf("player angle: %f\n", game.player.angle);
 	cast_rays(&game);
+	printf("player angle: %f\n", game.player.angle);
 	draw_map(&game);
 	draw_player(&game);
 	init_events(&game);

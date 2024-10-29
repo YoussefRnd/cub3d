@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:27:23 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/22 18:18:08 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:21:07 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,16 +112,24 @@ void	cast_ray(t_game *game)
 		game->ray.wall_hit.x = game->ray.hor_inter.x;
 		game->ray.wall_hit.y = game->ray.hor_inter.y;
 		game->ray.distance = hor_distance;
+		game->ray.color = 0x0000FFFF;
 	}
 	else
 	{
 		game->ray.wall_hit.x = game->ray.ver_inter.x;
 		game->ray.wall_hit.y = game->ray.ver_inter.y;
 		game->ray.distance = ver_distance;
+		game->ray.color = 0xFFFFFFFF;
+		
 	}
 	// draw_line(game, (t_line){game->player.pos_in_pix.x * MINIMAP_SCALE,
 	// 	game->player.pos_in_pix.y * MINIMAP_SCALE, game->ray.wall_hit.x
-	// 	* MINIMAP_SCALE, game->ray.wall_hit.y * MINIMAP_SCALE, 0x00FF00FF});
+	// 	* MINIMAP_SCALE, game->ray.wall_hit.y * MINIMAP_SCALE, 0xFFFF00FF});
+}
+
+int get_rgba(int r, int g, int b, int a)
+{
+    return (r << 24 | g << 16 | b << 8 | a);
 }
 
 void	draw_walls(t_game *game, int i)
@@ -144,9 +152,10 @@ void	draw_walls(t_game *game, int i)
 		end = HEIGHT - 1;
 	while (start < end)
 	{
-		mlx_put_pixel(game->win.img, i, start, WALL_COLOR);
+		mlx_put_pixel(game->win.img, i, start, game->ray.color);
 		start++;
 	}
+
 }
 
 void	cast_rays(t_game *game)
@@ -154,10 +163,13 @@ void	cast_rays(t_game *game)
 	double	ray_angle;
 	double	ray_angle_step;
 	int		i;
-
+	
+	if (game->win.img)
+        mlx_delete_image(game->win.mlx, game->win.img);
 	game->win.img = mlx_new_image(game->win.mlx, WIDTH, HEIGHT);
 	if (!game->win.img)
 		exit(EXIT_FAILURE);
+	draw_background(game);
 	ray_angle = game->player.angle - (FOV / 2);
 	ray_angle_step = FOV / WIDTH;
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 19:45:20 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/22 13:33:05 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:53:50 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,30 @@
 
 void	init_events(t_game *game)
 {
+	mlx_set_cursor_mode(game->win.mlx, MLX_MOUSE_HIDDEN);
 	mlx_key_hook(game->win.mlx, &key_hook, game);
 	mlx_close_hook(game->win.mlx, &mlx_close, game);
+	mlx_loop_hook(game->win.mlx, &cursor_hook, game);
+}
+void	cursor_hook(void *param)
+{
+	t_game	*game;
+	int		center_x;
+	int32_t x;
+	int32_t y;
+	
+
+	game = (t_game *)param;
+	mlx_get_mouse_pos(game->win.mlx, &x, &y);
+	center_x = WIDTH / 2;
+	if (x > 0)
+		game->player.angle += (x - center_x) * 0.001;
+	else 
+		game->player.angle -= (center_x - x) * 0.001;
+	mlx_set_mouse_pos(game->win.mlx, center_x, HEIGHT / 2);
+	cast_rays(game);
+	draw_map(game);
+	draw_player(game);
 }
 
 void	mlx_close(void *param)
@@ -91,9 +113,7 @@ void	key_hook(mlx_key_data_t kdata, void *param)
 	}
 	if (!is_collision(game, next_pos_in_pix))
 		game->player.pos_in_pix = next_pos_in_pix;
-
-	mlx_delete_image(game->win.mlx, game->win.img);
+	cast_rays(game);
 	draw_map(game);
 	draw_player(game);
-	cast_rays(game);
 }

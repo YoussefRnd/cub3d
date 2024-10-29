@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/28 17:06:35 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/28 19:58:18 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,18 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define TILE_SIZE 32
-# define TILE_MARGIN 1
+# define TILE_SIZE 30
 # define PLAYER_SIZE 7
 # define PLAYER_SPEED 3
 # define FOV 60 * (M_PI / 180)
-# define WIDTH 800
-# define HEIGHT 600
-# define MINIMAP_SCALE 0.4
-# define MINIMAP_WIDTH WIDTH * MINIMAP_SCALE
-# define MINIMAP_HEIGHT HEIGHT * MINIMAP_SCALE
+# define WIDTH 1920
+# define HEIGHT 1080
+# define MINIMAP_WIDTH (WIDTH / 5)
+# define MINIMAP_HIGHT (HEIGHT / 5)
 
 # define WALL_COLOR 0xFF0000FF
 # define FLOOR_COLOR 0xFFFFFFFF
+# define PLAYER_COLOR 0x00FF00FF
 
 typedef struct s_pos
 {
@@ -52,6 +51,7 @@ typedef struct s_player
 typedef struct s_map
 {
 	char		**grid;
+	t_pos		view;
 	t_pos		size;
 }				t_map;
 
@@ -60,7 +60,6 @@ typedef struct s_win
 	char		*title;
 	void		*mlx;
 	mlx_image_t	*img;
-	mlx_image_t	*mini_map;
 }				t_win;
 
 typedef struct s_ray
@@ -74,6 +73,7 @@ typedef struct s_ray
 	t_pos		ver_inter;
 	t_pos		hor_inter;
 	t_pos		wall_hit;
+	int			color;
 
 }				t_ray;
 typedef struct s_game

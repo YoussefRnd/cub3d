@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/29 15:49:23 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:50:12 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,25 @@
 
 void	init_map(t_map *map)
 {
-	char	*temp_map[10] = {"1111111111", "1000001001", "1110000101",
+	char	*temp_map[] = {"1111111111", "1000001001", "1110000101",
 			"1000001111", "1000E00001", "1000000001", "1111000001",
-			"1000000101", "1110000001", "1111111111"};
+			"1000000101", "1110000001",
+			"100011111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
+			"10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001",
+			"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
+			"1111111111"};
+	int		temp_map_size;
+	int		row_length;
 
-	map->size.x = 10;
-	map->size.y = 10;
+	temp_map_size = sizeof(temp_map) / sizeof(temp_map[0]);
+	map->size.y = temp_map_size;
+	map->size.x = 0;
+	for (int i = 0; i < temp_map_size; i++)
+	{
+		row_length = strlen(temp_map[i]);
+		if (row_length > map->size.x)
+			map->size.x = row_length;
+	}
 	map->grid = malloc(map->size.y * sizeof(char *));
 	for (int i = 0; i < map->size.y; i++)
 	{
@@ -45,10 +58,10 @@ void	init_player(t_player *player)
 	else if (player->orientation == 'W')
 		player->angle = 180 * (M_PI / 180);
 }
-void draw_background(t_game *game)
+void	draw_background(t_game *game)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < HEIGHT)
@@ -75,7 +88,7 @@ int	main(void)
 	init_player(&game.player);
 	cast_rays(&game);
 	draw_map(&game);
-	draw_player(&game);
+	// draw_player(&game);
 	init_events(&game);
 	mlx_loop(game.win.mlx);
 }

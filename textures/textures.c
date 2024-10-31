@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 04:48:05 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/31 05:59:12 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/31 20:34:54 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	put_on_textures(t_game *game)
 {
 	float texture_x;
-	float texture_y;
+	// float texture_y;
 	if (!game->ray.was_hit_vertical)
 		texture_x = ((int)game->ray.hor_inter.x % TILE_SIZE)
 			* (game->components->east_texture->width / TILE_SIZE);

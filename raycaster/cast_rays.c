@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:27:23 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/31 05:17:01 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/31 23:11:12 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ void	draw_walls(t_game *game, int i)
 		end = HEIGHT - 1;
 	while (start < end)
 	{
+		// printf("%f %f\n", game->ray.wall_hit.x, game->ray.wall_hit.y);
 		mlx_put_pixel(game->win.img, i, start, game->ray.color);
 		start++;
 	}
@@ -172,7 +173,6 @@ void	cast_rays(t_game *game)
 		game->ray.angle = normalize_angle(ray_angle);
 		cast_ray(game);
 		draw_walls(game, i);
-		put_on_textures(game);
 		ray_angle += ray_angle_step;
 		i++;
 	}

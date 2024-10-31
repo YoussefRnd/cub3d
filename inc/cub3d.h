@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/28 19:58:18 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:23:41 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # define TILE_SIZE 30
 # define PLAYER_SIZE 7
-# define PLAYER_SPEED 3
+# define PLAYER_SPEED 4
 # define FOV 60 * (M_PI / 180)
 # define WIDTH 1920
 # define HEIGHT 1080
@@ -51,7 +51,6 @@ typedef struct s_player
 typedef struct s_map
 {
 	char		**grid;
-	t_pos		view;
 	t_pos		size;
 }				t_map;
 
@@ -74,14 +73,22 @@ typedef struct s_ray
 	t_pos		hor_inter;
 	t_pos		wall_hit;
 	int			color;
+	int			was_hit_vertical;
 
 }				t_ray;
+
+typedef struct s_wall
+{
+	double		distance;
+	double		height;
+}				t_wall;
 typedef struct s_game
 {
 	t_player	player;
 	t_map		map;
 	t_win		win;
 	t_ray		ray;
+	t_wall		wall;
 }				t_game;
 
 #endif

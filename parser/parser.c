@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/29 07:57:34 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/31 02:51:07 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,25 +113,25 @@ void	parse_texture_string(t_type info_type, char *temp, t_components *comps)
 
 	splitted = ft_split(temp, ' ');
 	if (info_type == NORTH)
-		comps->north_texture = ft_strdup(splitted[1]);
+		comps->path_to_north_texture = ft_strdup(splitted[1]);
 	else if (info_type == SOUTH)
-		comps->south_texture = ft_strdup(splitted[1]);
+		comps->path_to_south_texture = ft_strdup(splitted[1]);
 	else if (info_type == EAST)
-		comps->east_texture = ft_strdup(splitted[1]);
+		comps->path_to_east_texture = ft_strdup(splitted[1]);
 	else if (info_type == WEST)
-		comps->west_texture = ft_strdup(splitted[1]);
+		comps->path_to_west_texture = ft_strdup(splitted[1]);
 	ft_free(splitted);
 }
 
 bool	parse_textures(t_type info_type, char *temp, t_components *comps)
 {
-	if (info_type == NORTH && comps->north_texture)
+	if (info_type == NORTH && comps->path_to_north_texture)
 		return (false);
-	else if (info_type == SOUTH && comps->south_texture)
+	else if (info_type == SOUTH && comps->path_to_south_texture)
 		return (false);
-	else if (info_type == EAST && comps->east_texture)
+	else if (info_type == EAST && comps->path_to_east_texture)
 		return (false);
-	else if (info_type == WEST && comps->west_texture)
+	else if (info_type == WEST && comps->path_to_west_texture)
 		return (false);
 	parse_texture_string(info_type, temp, comps);
 	return (true);
@@ -279,8 +279,8 @@ bool	return_bool_nd_free(bool boolean, char **temp)
 
 bool	all_good(t_components *comps)
 {
-	if (comps->ceiling_color && comps->east_texture && comps->floor_color
-		&& comps->north_texture && comps->south_texture && comps->west_texture)
+	if (comps->ceiling_color && comps->path_to_east_texture && comps->floor_color
+		&& comps->path_to_north_texture && comps->path_to_south_texture && comps->path_to_west_texture)
 		return (true);
 	else
 		return (false);
@@ -294,12 +294,14 @@ char	*remove_newline(char *line)
 	len = ft_strlen(line);
 	if (len == 0)
 		return (NULL);
-	temp = malloc(len);
+	temp = malloc(len + 1);
 	if (!temp)
 		return (NULL);
-	ft_strlcpy(temp, line, len);
+	ft_strlcpy(temp, line, len + 1);
+	// printf("before:[%s]--->", temp);
 	if (len > 0 && temp[len - 1] == '\n')
 		temp[len - 1] = '\0';
+	// printf("after:[%s]\n", temp);
 	return (temp);
 }
 
@@ -397,10 +399,14 @@ void	set_all_to_null(t_components *comps)
 {
 	comps->ceiling_color = NULL;
 	comps->floor_color = NULL;
-	comps->east_texture = NULL;
+	comps->path_to_east_texture = NULL;
+	comps->path_to_west_texture = NULL;
+	comps->path_to_north_texture = NULL;
+	comps->path_to_south_texture = NULL;
 	comps->west_texture = NULL;
-	comps->north_texture = NULL;
 	comps->south_texture = NULL;
+	comps->north_texture = NULL;
+	comps->east_texture = NULL;
 	comps->map = NULL;
 }
 
@@ -415,10 +421,10 @@ void	print_components(const t_components *components)
 		components->floor_color->green, components->floor_color->blue);
 	printf("Ceiling color: %d, %d, %d\n", components->ceiling_color->red,
 		components->ceiling_color->green, components->ceiling_color->blue);
-	printf("West texture: %s\n", components->west_texture);
-	printf("East texture: %s\n", components->east_texture);
-	printf("North texture: %s\n", components->north_texture);
-	printf("South texture: %s\n", components->south_texture);
+	printf("West texture: %s\n", components->path_to_west_texture);
+	printf("East texture: %s\n", components->path_to_east_texture);
+	printf("North texture: %s\n", components->path_to_north_texture);
+	printf("South texture: %s\n", components->path_to_south_texture);
 }
 // TODO write an algorithm about how to parse that map
 
@@ -496,33 +502,6 @@ bool	check_player_position(t_mapp *map)
 		return (false);
 	return (true);
 }
-
-// char	**list_to_array(t_mapp *head)
-// {
-// 	int		count;
-// 	t_mapp	*current;
-// 	char	**array;
-// 	int		i;
-
-// 	count = 0;
-// 	current = head;
-// 	while (current != NULL)
-// 	{
-// 		count++;
-// 		current = current->next;
-// 	}
-// 	array = (char **)malloc(sizeof(char *) * (count + 1));
-// 	current = head;
-// 	i = 0;
-// 	while (current != NULL)
-// 	{
-// 		array[i] = ft_strdup(current->line);
-// 		current = current->next;
-// 		i++;
-// 	}
-// 	array[i] = NULL;
-// 	return (array);
-// }
 
 char **list_to_array(t_mapp *head, int max_length)
 {
@@ -671,6 +650,19 @@ void	print_list(t_mapp *head)
 	}
 }
 
+bool check_validity_of_textures(t_components *comps)
+{
+	// TODO free memory on failure
+
+	comps->west_texture = mlx_load_png(comps->path_to_west_texture);
+	comps->east_texture = mlx_load_png(comps->path_to_east_texture);
+	comps->north_texture = mlx_load_png(comps->path_to_north_texture);
+	comps->south_texture = mlx_load_png(comps->path_to_south_texture);
+	if (!comps->west_texture | !comps->east_texture | !comps->north_texture | !comps->south_texture)
+		return false;
+	return true;
+}
+
 bool	parse_the_file(char *path, t_components *comps)
 {
 	int	fd;
@@ -685,12 +677,15 @@ bool	parse_the_file(char *path, t_components *comps)
 		perror("Error");
 		return false;
 	}
+	if (!check_validity_of_textures(comps))
+	{
+		perror("Error");
+		return false;
+	}
 	if (!check_validity_of_map(comps->map))
 	{
 		perror("Error");
 		return false;
 	}
-	print_components(comps);
-	print_list(comps->map);
 	return true;
 }

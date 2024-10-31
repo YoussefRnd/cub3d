@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 13:31:14 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/28 19:45:42 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:31:06 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,8 @@ void	draw_player(t_game *game)
 	}
 	line.x0 = game->player.pos_in_pix.x;
 	line.y0 = game->player.pos_in_pix.y;
-	line.x1 = game->player.pos_in_pix.x + cos(game->player.angle) * TILE_SIZE
-		/ 2;
-	line.y1 = game->player.pos_in_pix.y + sin(game->player.angle) * TILE_SIZE
-		/ 2;
+	line.x1 = line.x0 + (cos(game->player.angle) * (TILE_SIZE / 2));
+	line.y1 = line.y0 + (sin(game->player.angle) * (TILE_SIZE / 2));
 	line.color = 0xFF00FFFF;
 	draw_line(game, line);
 	mlx_image_to_window(game->win.mlx, game->win.img, 0, 0);

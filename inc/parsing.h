@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:48 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/29 07:56:57 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/31 02:48:02 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,14 @@ typedef struct s_components_list
 {
 	t_colors		*floor_color;
 	t_colors		*ceiling_color;
-	char			*west_texture;
-	char			*east_texture;
-	char			*north_texture;
-	char			*south_texture;
+	char			*path_to_west_texture;
+	char			*path_to_east_texture;
+	char			*path_to_north_texture;
+	char			*path_to_south_texture;
+	mlx_texture_t	*west_texture;
+	mlx_texture_t	*east_texture;
+	mlx_texture_t	*south_texture;
+	mlx_texture_t	*north_texture;
 	t_mapp			*map;
 }					t_components;
 

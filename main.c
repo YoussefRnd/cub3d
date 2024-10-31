@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/29 08:27:32 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:37:04 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,21 @@ void	init_map(t_map *map,int x,int y)
 }
 
 
-char	get_player_orientation(t_mapp *map)
+char	get_player_orientation(char **map)
 {
 	int i = 0;
+	int j = 0;
 
-	while(map)
+	while(map[i])
 	{
-		i = 0;
-		while(map->line[i])
+		j = 0;
+		while(map[i][j])
 		{
-			if (is_a_position_char(map->line[i]))
-				return map->line[i];
-			i++;
+			if (is_a_position_char(map[i][j]))
+				return map[i][j];
+			j++;
 		}
-		map = map->next;
+		i++;
 	}
 	return 'N';
 }
@@ -65,7 +66,7 @@ void	init_player(t_player *player, char **map)
 	determine_player_pos(&(player->pos), map);
 	player->pos_in_pix.x = player->pos.x * TILE_SIZE + (TILE_SIZE / 2);
 	player->pos_in_pix.y = player->pos.y * TILE_SIZE + (TILE_SIZE / 2);
-	player->orientation = 'N';
+	player->orientation = get_player_orientation(map);
 	if (player->orientation == 'N')
 		player->angle = 270 * (M_PI / 180);
 	else if (player->orientation == 'E')

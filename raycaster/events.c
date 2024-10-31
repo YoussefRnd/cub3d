@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 19:45:20 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/27 17:53:50 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:49:05 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	cursor_hook(void *param)
 	
 
 	game = (t_game *)param;
-	mlx_get_mouse_pos(game->win.mlx, &x, &y);
 	center_x = WIDTH / 2;
+	mlx_set_mouse_pos(game->win.mlx, center_x, HEIGHT / 2);
+	mlx_get_mouse_pos(game->win.mlx, &x, &y);
 	if (x > 0)
 		game->player.angle += (x - center_x) * 0.001;
 	else 
 		game->player.angle -= (center_x - x) * 0.001;
-	mlx_set_mouse_pos(game->win.mlx, center_x, HEIGHT / 2);
 	cast_rays(game);
 	draw_map(game);
 	draw_player(game);

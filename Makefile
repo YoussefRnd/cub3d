@@ -15,21 +15,21 @@ MLX_ARCH = $(MLX)/build/libmlx42.a
 OBJ_DIR = obj
 INC_DIR = inc
 
-SRCS = main.c $(wildcard raycaster/*.c) $(wildcard parser/*.c) $(wildcard get_next_line/*.c)
+SRCS = main.c $(wildcard raycaster/*.c) $(wildcard parser/*.c) $(wildcard get_next_line/*.c) $(wildcard textures/*.c)
 
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
-$(LIBFT_ARCH):
+$(LIBFT)/libft.a:
 	@$(MAKE) -C $(LIBFT)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: %.c $(INC_DIR)/cub3d.h
 	@$(MKDIR) $(@D)
 	@echo "Compiling $<..."
 	@$(CC) $(CFLAGS) -I $(INC_DIR) -I $(LIBFT) -I $(MLX)/include -c $< -o $@
 
-$(NAME): $(LIBFT_ARCH) $(OBJS)
+$(NAME): $(OBJS) $(LIBFT)/libft.a
 	@echo "Building $@..."
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_ARCH) $(MLX_ARCH) $(MLX_FLAGS)
 	@echo "$@ is ready!"

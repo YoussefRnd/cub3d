@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/29 15:23:41 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/10/31 05:16:06 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../lib/Libft/libft.h"
 # include "../lib/MLX42/include/MLX42/MLX42.h"
+#include "parsing.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
@@ -34,61 +35,64 @@
 # define FLOOR_COLOR 0xFFFFFFFF
 # define PLAYER_COLOR 0x00FF00FF
 
-typedef struct s_pos
-{
-	double		x;
-	double		y;
-}				t_pos;
+// typedef struct s_pos
+// {
+// 	double			x;
+// 	double			y;
+// }					t_pos;
 
 typedef struct s_player
 {
-	t_pos		pos;
-	t_pos		pos_in_pix;
-	char		orientation;
-	double		angle;
-}				t_player;
+	t_pos			pos;
+	t_pos			pos_in_pix;
+	char			orientation;
+	double			angle;
+}					t_player;
 
 typedef struct s_map
 {
-	char		**grid;
-	t_pos		size;
-}				t_map;
+	char			**grid;
+	t_pos			size;
+}					t_map;
 
 typedef struct s_win
 {
-	char		*title;
-	void		*mlx;
-	mlx_image_t	*img;
-}				t_win;
+	char			*title;
+	void			*mlx;
+	mlx_image_t		*img;
+}					t_win;
 
 typedef struct s_ray
 {
-	double		angle;
-	int			is_facing_down;
-	int			is_facing_right;
-	int			is_facing_up;
-	int			is_facing_left;
-	double		distance;
-	t_pos		ver_inter;
-	t_pos		hor_inter;
-	t_pos		wall_hit;
-	int			color;
-	int			was_hit_vertical;
+	double			angle;
+	int				is_facing_down;
+	int				is_facing_right;
+	int				is_facing_up;
+	int				is_facing_left;
+	double			distance;
+	t_pos			ver_inter;
+	t_pos			hor_inter;
+	t_pos			wall_hit;
+	int				color;
+	int				was_hit_vertical;
 
-}				t_ray;
+}					t_ray;
 
 typedef struct s_wall
 {
-	double		distance;
-	double		height;
-}				t_wall;
+	double			distance;
+	double			height;
+}					t_wall;
 typedef struct s_game
 {
-	t_player	player;
-	t_map		map;
-	t_win		win;
-	t_ray		ray;
-	t_wall		wall;
-}				t_game;
+	t_player		player;
+	t_map			map;
+	t_win			win;
+	t_ray			ray;
+	t_wall			wall;
+	t_components	*components;
+}					t_game;
+
+void				put_on_textures(t_game *game);
 
 #endif

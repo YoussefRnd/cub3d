@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/29 12:37:04 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/10/31 05:08:36 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,15 @@ int get_y(t_mapp *head)
 int	main(int ac, char **av)
 {
 	t_game	game;
-	t_components comps;
+	t_components components;
 
 	(void)ac;
-	if (!(parse_the_file(av[1], &comps)))
+	if (!(parse_the_file(av[1], &components)))
 		return -1;
-	game.map.grid = list_to_array(comps.map, get_max_string_length(comps.map));
+	game.components = &components;
+	game.map.grid = list_to_array(components.map, get_max_string_length(components.map));
 	init_window(&game.win);
-	init_map(&game.map, get_max_string_length(comps.map), get_y(comps.map));
+	init_map(&game.map, get_max_string_length(components.map), get_y(components.map));
 	init_player(&game.player, game.map.grid);
 	draw_map(&game);
 	draw_player(&game);

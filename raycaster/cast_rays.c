@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:27:23 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/31 23:11:12 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/03 16:46:12 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void	draw_walls(t_game *game, int i)
 	while (start < end)
 	{
 		// printf("%f %f\n", game->ray.wall_hit.x, game->ray.wall_hit.y);
+		
 		mlx_put_pixel(game->win.img, i, start, game->ray.color);
 		start++;
 	}

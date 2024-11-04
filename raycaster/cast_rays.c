@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:27:23 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/04 18:00:00 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/04 19:49:47 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,6 @@ void	draw_walls(t_game *game, int i)
 	game->wall.height = (TILE_SIZE / game->wall.distance) * distance_proj_plane;
 	start = (HEIGHT / 2) - (game->wall.height / 2);
 	end = (HEIGHT / 2) + (game->wall.height / 2);
-	// if (start < 0)
-	// 	start = 0;
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
 	wall_top = start;

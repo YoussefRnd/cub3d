@@ -2,9 +2,9 @@
 
 
 NO /Users/hbrahimi/goinfre/bluestone.png
-SO /Users/hbrahimi/goinfre/bluestone.png
-WE /Users/hbrahimi/goinfre/bluestone.png
-EA /Users/hbrahimi/goinfre/bluestone.png
+SO /Users/hbrahimi/goinfre/eagle.png
+WE /Users/hbrahimi/goinfre/pillar.png
+EA /Users/hbrahimi/goinfre/sprite_1.png
 F 220,100,0
 C 225,30,0
 
@@ -13,7 +13,7 @@ C 225,30,0
 1000001001001000001
 1011000001000001001
 1001000001111101111
-100000S000001000001
+100000N000001000001
 1000000000000000001
 1000000000000000001
 1111000000000001011

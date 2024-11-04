@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/11/04 21:39:11 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:32:14 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,11 +201,11 @@ bool	process_colors(char **array, t_colors *color)
 			return (false);
 		}
 		if (i == 0)
-			color->red = (unsigned char)color_value;
+			color->red = color_value;
 		else if (i == 1)
-			color->green = (unsigned char)color_value;
+			color->green = color_value;
 		else if (i == 2)
-			color->blue = (unsigned char)color_value;
+			color->blue = color_value;
 		free(trimmed);
 		i++;
 	}
@@ -240,7 +240,7 @@ bool	parse_colors_string(t_type info_type, char *temp, t_components *comps)
 			- starting_index);
 	splitted = ft_split(colors_str, ',');
 	free_and_set_to_null(&colors_str);
-	// !remember to free allocated memory before exiting
+	// TODO remember to free allocated memory before exiting
 	if (get_length(splitted) != 3)
 		return (false);
 	if (!deal_with_colors(info_type, comps, splitted))
@@ -688,4 +688,9 @@ bool	parse_the_file(char *path, t_components *comps)
 		return false;
 	}
 	return true;
+}
+
+int get_color(t_colors *color)
+{
+	return (color->red << 24 | color->green << 16 | color->blue << 8 | 255);
 }

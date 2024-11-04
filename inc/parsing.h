@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:48 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/31 05:15:31 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:33:01 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ typedef struct s_pos
 
 typedef struct s_colors
 {
-	unsigned char	red;
-	unsigned char	green;
-	unsigned char	blue;
+	int				red;
+	int				green;
+	int				blue;
 }					t_colors;
 
 typedef struct s_mapp
@@ -76,6 +76,6 @@ char				**list_to_array(t_mapp *head, int max_length);
 int					get_max_string_length(t_mapp *head);
 void				determine_player_pos(t_pos *pos, char **arr);
 bool				is_a_position_char(char c);
-
+int					get_color(t_colors *color);
 
 #endif

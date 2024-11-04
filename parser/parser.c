@@ -6,11 +6,11 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/29 12:03:40 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:32:14 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/parsing.h"
+#include "../inc/cub3d.h"
 
 bool	valid_path(char *path)
 {
@@ -113,25 +113,25 @@ void	parse_texture_string(t_type info_type, char *temp, t_components *comps)
 
 	splitted = ft_split(temp, ' ');
 	if (info_type == NORTH)
-		comps->north_texture = ft_strdup(splitted[1]);
+		comps->path_to_north_texture = ft_strdup(splitted[1]);
 	else if (info_type == SOUTH)
-		comps->south_texture = ft_strdup(splitted[1]);
+		comps->path_to_south_texture = ft_strdup(splitted[1]);
 	else if (info_type == EAST)
-		comps->east_texture = ft_strdup(splitted[1]);
+		comps->path_to_east_texture = ft_strdup(splitted[1]);
 	else if (info_type == WEST)
-		comps->west_texture = ft_strdup(splitted[1]);
+		comps->path_to_west_texture = ft_strdup(splitted[1]);
 	ft_free(splitted);
 }
 
 bool	parse_textures(t_type info_type, char *temp, t_components *comps)
 {
-	if (info_type == NORTH && comps->north_texture)
+	if (info_type == NORTH && comps->path_to_north_texture)
 		return (false);
-	else if (info_type == SOUTH && comps->south_texture)
+	else if (info_type == SOUTH && comps->path_to_south_texture)
 		return (false);
-	else if (info_type == EAST && comps->east_texture)
+	else if (info_type == EAST && comps->path_to_east_texture)
 		return (false);
-	else if (info_type == WEST && comps->west_texture)
+	else if (info_type == WEST && comps->path_to_west_texture)
 		return (false);
 	parse_texture_string(info_type, temp, comps);
 	return (true);
@@ -201,11 +201,11 @@ bool	process_colors(char **array, t_colors *color)
 			return (false);
 		}
 		if (i == 0)
-			color->red = (unsigned char)color_value;
+			color->red = color_value;
 		else if (i == 1)
-			color->green = (unsigned char)color_value;
+			color->green = color_value;
 		else if (i == 2)
-			color->blue = (unsigned char)color_value;
+			color->blue = color_value;
 		free(trimmed);
 		i++;
 	}
@@ -240,7 +240,7 @@ bool	parse_colors_string(t_type info_type, char *temp, t_components *comps)
 			- starting_index);
 	splitted = ft_split(colors_str, ',');
 	free_and_set_to_null(&colors_str);
-	// !remember to free allocated memory before exiting
+	// TODO remember to free allocated memory before exiting
 	if (get_length(splitted) != 3)
 		return (false);
 	if (!deal_with_colors(info_type, comps, splitted))
@@ -279,8 +279,8 @@ bool	return_bool_nd_free(bool boolean, char **temp)
 
 bool	all_good(t_components *comps)
 {
-	if (comps->ceiling_color && comps->east_texture && comps->floor_color
-		&& comps->north_texture && comps->south_texture && comps->west_texture)
+	if (comps->ceiling_color && comps->path_to_east_texture && comps->floor_color
+		&& comps->path_to_north_texture && comps->path_to_south_texture && comps->path_to_west_texture)
 		return (true);
 	else
 		return (false);
@@ -399,10 +399,14 @@ void	set_all_to_null(t_components *comps)
 {
 	comps->ceiling_color = NULL;
 	comps->floor_color = NULL;
-	comps->east_texture = NULL;
+	comps->path_to_east_texture = NULL;
+	comps->path_to_west_texture = NULL;
+	comps->path_to_north_texture = NULL;
+	comps->path_to_south_texture = NULL;
 	comps->west_texture = NULL;
-	comps->north_texture = NULL;
 	comps->south_texture = NULL;
+	comps->north_texture = NULL;
+	comps->east_texture = NULL;
 	comps->map = NULL;
 }
 
@@ -417,10 +421,10 @@ void	print_components(const t_components *components)
 		components->floor_color->green, components->floor_color->blue);
 	printf("Ceiling color: %d, %d, %d\n", components->ceiling_color->red,
 		components->ceiling_color->green, components->ceiling_color->blue);
-	printf("West texture: %s\n", components->west_texture);
-	printf("East texture: %s\n", components->east_texture);
-	printf("North texture: %s\n", components->north_texture);
-	printf("South texture: %s\n", components->south_texture);
+	printf("West texture: %s\n", components->path_to_west_texture);
+	printf("East texture: %s\n", components->path_to_east_texture);
+	printf("North texture: %s\n", components->path_to_north_texture);
+	printf("South texture: %s\n", components->path_to_south_texture);
 }
 // TODO write an algorithm about how to parse that map
 
@@ -498,33 +502,6 @@ bool	check_player_position(t_mapp *map)
 		return (false);
 	return (true);
 }
-
-// char	**list_to_array(t_mapp *head)
-// {
-// 	int		count;
-// 	t_mapp	*current;
-// 	char	**array;
-// 	int		i;
-
-// 	count = 0;
-// 	current = head;
-// 	while (current != NULL)
-// 	{
-// 		count++;
-// 		current = current->next;
-// 	}
-// 	array = (char **)malloc(sizeof(char *) * (count + 1));
-// 	current = head;
-// 	i = 0;
-// 	while (current != NULL)
-// 	{
-// 		array[i] = ft_strdup(current->line);
-// 		current = current->next;
-// 		i++;
-// 	}
-// 	array[i] = NULL;
-// 	return (array);
-// }
 
 char **list_to_array(t_mapp *head, int max_length)
 {
@@ -673,6 +650,19 @@ void	print_list(t_mapp *head)
 	}
 }
 
+bool check_validity_of_textures(t_components *comps)
+{
+	// TODO free memory on failure
+
+	comps->west_texture = mlx_load_png(comps->path_to_west_texture);
+	comps->east_texture = mlx_load_png(comps->path_to_east_texture);
+	comps->north_texture = mlx_load_png(comps->path_to_north_texture);
+	comps->south_texture = mlx_load_png(comps->path_to_south_texture);
+	if (!comps->west_texture | !comps->east_texture | !comps->north_texture | !comps->south_texture)
+		return false;
+	return true;
+}
+
 bool	parse_the_file(char *path, t_components *comps)
 {
 	int	fd;
@@ -687,12 +677,20 @@ bool	parse_the_file(char *path, t_components *comps)
 		perror("Error");
 		return false;
 	}
+	if (!check_validity_of_textures(comps))
+	{
+		perror("Error");
+		return false;
+	}
 	if (!check_validity_of_map(comps->map))
 	{
 		perror("Error");
 		return false;
 	}
-	print_components(comps);
-	print_list(comps->map);
 	return true;
+}
+
+int get_color(t_colors *color)
+{
+	return (color->red << 24 | color->green << 16 | color->blue << 8 | 255);
 }

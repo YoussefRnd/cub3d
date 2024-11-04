@@ -1,7 +1,7 @@
 NAME = cub3D
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -O3 -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -O3
 MLX_FLAGS = -framework Cocoa -framework OpenGL -framework IOKit -lglfw -L"/Users/$(USER)/goinfre/homebrew/Cellar/glfw/3.4/lib"
 RM = rm -fr
 MKDIR = mkdir -p

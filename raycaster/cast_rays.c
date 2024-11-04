@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:27:23 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/03 16:46:12 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:00:00 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ void	cast_ray(t_game *game)
 		game->ray.distance = hor_distance;
 		game->ray.color = 0xFFFFFFFF;
 		game->ray.was_hit_vertical = false;
-		
 	}
 	else
 	{
@@ -134,6 +133,8 @@ void	draw_walls(t_game *game, int i)
 	double	distance_proj_plane;
 	double	start;
 	double	end;
+	double	wall_top;
+	double	ray_hit;
 
 	game->wall.distance = game->ray.distance * cos(game->ray.angle
 			- game->player.angle);
@@ -141,15 +142,16 @@ void	draw_walls(t_game *game, int i)
 	game->wall.height = (TILE_SIZE / game->wall.distance) * distance_proj_plane;
 	start = (HEIGHT / 2) - (game->wall.height / 2);
 	end = (HEIGHT / 2) + (game->wall.height / 2);
-	if (start < 0)
-		start = 0;
+	// if (start < 0)
+	// 	start = 0;
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
+	wall_top = start;
 	while (start < end)
 	{
-		// printf("%f %f\n", game->ray.wall_hit.x, game->ray.wall_hit.y);
-		
-		mlx_put_pixel(game->win.img, i, start, game->ray.color);
+		ray_hit = start - wall_top;
+		if (start >= 0)
+			mlx_put_pixel(game->win.img, i, start, get_texture_color(game, ray_hit));
 		start++;
 	}
 }
@@ -159,9 +161,9 @@ void	cast_rays(t_game *game)
 	double	ray_angle;
 	double	ray_angle_step;
 	int		i;
-	
+
 	if (game->win.img)
-        mlx_delete_image(game->win.mlx, game->win.img);
+		mlx_delete_image(game->win.mlx, game->win.img);
 	game->win.img = mlx_new_image(game->win.mlx, WIDTH, HEIGHT);
 	if (!game->win.img)
 		exit(EXIT_FAILURE);

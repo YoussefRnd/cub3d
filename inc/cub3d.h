@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/03 16:46:25 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:59:33 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,6 @@ typedef struct s_game
 }					t_game;
 
 // void				put_on_textures(t_game *game);
-int					get_texture_color(t_game *game);
+int					get_texture_color(t_game *game, double y_in_wall);
 
 #endif

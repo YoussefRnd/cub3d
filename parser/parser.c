@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/31 04:55:21 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/04 01:53:15 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -677,11 +677,11 @@ bool	parse_the_file(char *path, t_components *comps)
 		perror("Error");
 		return false;
 	}
-	// if (!check_validity_of_textures(comps))
-	// {
-	// 	perror("Error");
-	// 	return false;
-	// }
+	if (!check_validity_of_textures(comps))
+	{
+		perror("Error");
+		return false;
+	}
 	if (!check_validity_of_map(comps->map))
 	{
 		perror("Error");

@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/31 13:50:12 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:10:17 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ int	main(void)
 	init_map(&game.map);
 	init_player(&game.player);
 	cast_rays(&game);
-	draw_map(&game);
-	// draw_player(&game);
+	draw_minimap(&game);
 	init_events(&game);
 	mlx_loop(game.win.mlx);
 }

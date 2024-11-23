@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:54:15 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/10/31 10:48:31 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:24:07 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,18 @@ typedef struct s_line
 }		t_line;
 
 void	init_window(t_win *win);
-void	draw_background(t_game *game);
-void	draw_map(t_game *game);
-void	draw_player(t_game *game);
-
-void	draw_line(t_game *game, t_line line);
-
 void	init_events(t_game *game);
+void	init_ray(t_ray *ray);
 
-void	key_hook(mlx_key_data_t key, void *param);
-void	mlx_close(void *param);
-void	cursor_hook(void *param);
+void	draw_background(t_game *game);
+void	draw_minimap(t_game *game);
+void	draw_player(t_game *game);
+void	draw_line(t_game *game, t_line line);
+void	draw_direction_line(t_game *game);
+void	draw_walls(t_game *game, int i);
+
+int		is_collision(t_game *game, t_pos next_pos);
+t_pos	calculate_next_position(t_game *game, t_pos current_pos);
 
 void	first_hor_inter(t_game *game);
 void	other_hor_inter(t_game *game);

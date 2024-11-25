@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/11/04 22:32:14 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:13:21 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,12 +216,12 @@ bool	deal_with_colors(t_type info_type, t_components *comps, char **splitted)
 {
 	if (info_type == CEILING)
 	{
-		comps->ceiling_color = malloc(sizeof(t_colors *));
+		comps->ceiling_color = malloc(sizeof(t_colors));
 		return (process_colors(splitted, comps->ceiling_color));
 	}
 	else if (info_type == FLOOR)
 	{
-		comps->floor_color = malloc(sizeof(t_colors *));
+		comps->floor_color = malloc(sizeof(t_colors));
 		return (process_colors(splitted, comps->floor_color));
 	}
 	return (false);

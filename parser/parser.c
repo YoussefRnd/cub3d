@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/11/25 17:13:21 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:40:23 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,12 @@ bool	check_validity_of_file(int fd)
 
 bool	valid_map_line(char *str)
 {
-	// printf("------>[%s]<-------\n", str);
 	if (ft_strlen(str) == 0)
 		return (false);
 	while (*str)
 	{
 		if (*str != '0' && *str != '1' && *str != 'N' && *str != 'S'
-			&& *str != 'E' && *str != 'W' && *str != ' ')
+			&& *str != 'E' && *str != 'W' && *str != 32)
 			return (false);
 		str++;
 	}
@@ -107,11 +106,13 @@ t_type	detect_type(char *str)
 		return (return_nd_free(INVALID, arr));
 }
 
-void	parse_texture_string(t_type info_type, char *temp, t_components *comps)
+bool	parse_texture_string(t_type info_type, char *temp, t_components *comps)
 {
 	char	**splitted;
 
 	splitted = ft_split(temp, ' ');
+	if (get_length(splitted) > 2)
+		return false;
 	if (info_type == NORTH)
 		comps->path_to_north_texture = ft_strdup(splitted[1]);
 	else if (info_type == SOUTH)
@@ -121,6 +122,7 @@ void	parse_texture_string(t_type info_type, char *temp, t_components *comps)
 	else if (info_type == WEST)
 		comps->path_to_west_texture = ft_strdup(splitted[1]);
 	ft_free(splitted);
+	return true;
 }
 
 bool	parse_textures(t_type info_type, char *temp, t_components *comps)
@@ -133,8 +135,7 @@ bool	parse_textures(t_type info_type, char *temp, t_components *comps)
 		return (false);
 	else if (info_type == WEST && comps->path_to_west_texture)
 		return (false);
-	parse_texture_string(info_type, temp, comps);
-	return (true);
+	return (parse_texture_string(info_type, temp, comps));
 }
 
 int	where_to_start(t_type info_type, char *temp)
@@ -227,6 +228,23 @@ bool	deal_with_colors(t_type info_type, t_components *comps, char **splitted)
 	return (false);
 }
 
+int	count_commas(char *str)
+{
+	int count;
+
+	count = 0;
+	if (!str)
+		return 0;
+	while(*str)
+	{
+		if (*str == ',')
+			count++;
+		str++;
+	}
+	return count;
+}
+
+
 bool	parse_colors_string(t_type info_type, char *temp, t_components *comps)
 {
 	char	*colors_str;
@@ -239,6 +257,8 @@ bool	parse_colors_string(t_type info_type, char *temp, t_components *comps)
 	colors_str = ft_substr(temp, starting_index, last_appearance
 			- starting_index);
 	splitted = ft_split(colors_str, ',');
+	if (count_commas(colors_str) != 2)
+		return false;
 	free_and_set_to_null(&colors_str);
 	// TODO remember to free allocated memory before exiting
 	if (get_length(splitted) != 3)
@@ -346,10 +366,7 @@ bool	retrieve_map(int fd, t_components *comps, char *line)
 		temp = remove_newline(line);
 		free_and_set_to_null(&line);
 		if (detect_type(temp) != MAP)
-		{
-			// printf("[%s], %d", temp, detect_type(temp));
 			return (return_bool_nd_free(false, &temp));
-		}
 		add_to_list(&comps->map, temp);
 		free_and_set_to_null(&temp);
 	}
@@ -426,7 +443,6 @@ void	print_components(const t_components *components)
 	printf("North texture: %s\n", components->path_to_north_texture);
 	printf("South texture: %s\n", components->path_to_south_texture);
 }
-// TODO write an algorithm about how to parse that map
 
 bool	adjacent_space(char *line)
 {

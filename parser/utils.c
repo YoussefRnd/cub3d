@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 10:31:55 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/30 10:19:10 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:32:42 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,19 @@ int	ft_super_atoi(const char *str)
 	int num = 0;
 	int sign = 1;
 
-	while (ft_isspace((unsigned char)str[i]))
+	while (ft_isspace(str[i]))
 		i++;
+	if(ft_strlen(&str[i]) > 3)
+		return (-1);
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
 			sign = -1;
 		i++;
 	}
-	if (!ft_isdigit((unsigned char)str[i]))
+	if (!ft_isdigit(str[i]))
 		return (-1);
-	while (ft_isdigit((unsigned char)str[i]))
+	while (ft_isdigit(str[i]))
 	{
 		num = num * 10 + (str[i] - '0');
 		i++;
@@ -84,8 +86,6 @@ int	ft_super_atoi(const char *str)
 	if (str[i] != '\0')
 		return (-1);
 	num *= sign;
-	if (num < 0 || num > 255)
-		return (-1);
 	return (num);
 }
 

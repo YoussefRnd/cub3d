@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:48 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/11/25 18:52:53 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/25 21:29:46 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ void				determine_player_pos(t_pos *pos, char **arr);
 bool				is_a_position_char(char c);
 int					get_color(t_colors *color);
 void				free_comps(t_components *comps);
+void	print_components(const t_components *components);
 
 #endif

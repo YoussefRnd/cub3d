@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/11/25 17:40:23 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:53:48 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,11 @@ int	count_commas(char *str)
 	return count;
 }
 
+bool free_2d_nd_return_bool(char **splitted, bool boolean)
+{
+	ft_free(splitted);
+	return boolean;
+}
 
 bool	parse_colors_string(t_type info_type, char *temp, t_components *comps)
 {
@@ -258,14 +263,16 @@ bool	parse_colors_string(t_type info_type, char *temp, t_components *comps)
 			- starting_index);
 	splitted = ft_split(colors_str, ',');
 	if (count_commas(colors_str) != 2)
-		return false;
+	{
+		free_and_set_to_null(&colors_str);
+		return (free_2d_nd_return_bool(splitted, false));
+	}
 	free_and_set_to_null(&colors_str);
-	// TODO remember to free allocated memory before exiting
 	if (get_length(splitted) != 3)
-		return (false);
+		return (free_2d_nd_return_bool(splitted ,false));
 	if (!deal_with_colors(info_type, comps, splitted))
-		return (false);
-	return (true);
+		return (free_2d_nd_return_bool(splitted, false));
+	return (free_2d_nd_return_bool(splitted, true));
 }
 
 bool	parse_colors(t_type info_type, char *temp, t_components *comps)
@@ -382,7 +389,6 @@ bool	fill_it(int fd, t_components *comps)
 	while ((line = get_next_line(fd)))
 	{
 		temp = trim_white_spaces(line);
-		// free_and_set_to_null(&line);
 		if (ft_strlen(temp) == 0)
 		{
 			free_and_set_to_null(&temp);
@@ -408,7 +414,6 @@ bool	fill_it(int fd, t_components *comps)
 					&temp));
 		free_and_set_to_null(&line);
 	}
-	// ?to check later
 	return (false);
 }
 
@@ -612,27 +617,24 @@ int	get_max_string_length(t_mapp *head)
 
 bool	valid_map(t_mapp *map)
 {
-	// int		i = 0;
 	int		max_length;
 	bool	*out;
 	char	**map_arr;
 	t_pos	player_pos;
 
-	// TODO free the double array and the bool when finished
 	out = malloc(sizeof(bool *));
 	*out = false;
 	max_length = get_max_string_length(map);
 	map_arr = list_to_array(map, max_length);
 	determine_player_pos(&player_pos, map_arr);
 	check_borders(map_arr, player_pos.x, player_pos.y, out);
-	// while(map_arr[i])
-	// {
-	// 	printf("%s\n", map_arr[i]);
-	// 	i++;
-	// }
 	if (*out)
-		return (false);
-	return (true);
+	{
+		free(out);
+		return (free_2d_nd_return_bool(map_arr, false));
+	}
+	free(out);
+	return (free_2d_nd_return_bool(map_arr, true));
 }
 
 bool	check_validity_of_map(t_mapp *map)
@@ -668,8 +670,6 @@ void	print_list(t_mapp *head)
 
 bool check_validity_of_textures(t_components *comps)
 {
-	// TODO free memory on failure
-
 	comps->west_texture = mlx_load_png(comps->path_to_west_texture);
 	comps->east_texture = mlx_load_png(comps->path_to_east_texture);
 	comps->north_texture = mlx_load_png(comps->path_to_north_texture);
@@ -679,11 +679,68 @@ bool check_validity_of_textures(t_components *comps)
 	return true;
 }
 
+void free_t_colors(t_colors **colors)
+{
+	if (colors != NULL && *colors != NULL)
+	{
+		free(*colors);
+		*colors = NULL;
+	}
+}
+
+void free_mapp(t_mapp **head)
+{
+    t_mapp *current = *head;
+    t_mapp *next_node;
+
+    while (current != NULL)
+    {
+        next_node = current->next;
+        free(current->line);
+        free(current);
+        current = next_node;
+    }
+
+    *head = NULL;
+}
+
+void free_mlx_texture(mlx_texture_t **texture)
+{
+	free(*texture);
+	*texture = NULL;
+}
+
+void free_comps(t_components *comps)
+{
+	if (comps->ceiling_color)
+		free_t_colors(&comps->ceiling_color);
+	if (comps->floor_color)
+		free_t_colors(&comps->floor_color);
+	if (comps->map)
+		free_mapp(&comps->map);
+	if (comps->path_to_north_texture)
+		free_and_set_to_null(&comps->path_to_north_texture);
+	if (comps->path_to_south_texture)
+		free_and_set_to_null(&comps->path_to_south_texture);
+	if (comps->path_to_east_texture)
+		free_and_set_to_null(&comps->path_to_east_texture);
+	if (comps->path_to_west_texture)
+		free_and_set_to_null(&comps->path_to_west_texture);
+	if (comps->east_texture)
+		free_mlx_texture(&comps->east_texture);
+	if (comps->west_texture)
+		free_mlx_texture(&comps->west_texture);
+	if (comps->north_texture)
+		free_mlx_texture(&comps->north_texture);
+	if (comps->south_texture)
+		free_mlx_texture(&comps->south_texture);
+}
+
+
 bool	parse_the_file(char *path, t_components *comps)
 {
 	int	fd;
 
-	// TODO free comps on failure
 	set_all_to_null(comps);
 	fd = open_file_and_return_fd(path);
 	if (!check_validity_of_file(fd))
@@ -691,16 +748,19 @@ bool	parse_the_file(char *path, t_components *comps)
 	if (!fill_it(fd, comps))
 	{
 		perror("Error");
+		free_comps(comps);
 		return false;
 	}
 	if (!check_validity_of_textures(comps))
 	{
 		perror("Error");
+		free_comps(comps);
 		return false;
 	}
 	if (!check_validity_of_map(comps->map))
 	{
 		perror("Error");
+		free_comps(comps);
 		return false;
 	}
 	return true;

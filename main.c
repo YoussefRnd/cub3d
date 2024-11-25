@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/25 15:59:12 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:56:01 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,5 @@ int	main(int ac, char **av)
 	cast_rays(&game);
 	init_events(&game);
 	mlx_loop(game.win.mlx);
+	free_comps(&components);
 }

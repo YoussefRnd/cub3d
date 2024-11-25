@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:48 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/11/04 22:33:01 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:52:53 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ int					get_max_string_length(t_mapp *head);
 void				determine_player_pos(t_pos *pos, char **arr);
 bool				is_a_position_char(char c);
 int					get_color(t_colors *color);
+void				free_comps(t_components *comps);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/11/04 22:32:14 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:49:24 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,8 @@ bool	deal_with_colors(t_type info_type, t_components *comps, char **splitted)
 	return (false);
 }
 
+// bool 
+
 bool	parse_colors_string(t_type info_type, char *temp, t_components *comps)
 {
 	char	*colors_str;
@@ -426,7 +428,6 @@ void	print_components(const t_components *components)
 	printf("North texture: %s\n", components->path_to_north_texture);
 	printf("South texture: %s\n", components->path_to_south_texture);
 }
-// TODO write an algorithm about how to parse that map
 
 bool	adjacent_space(char *line)
 {

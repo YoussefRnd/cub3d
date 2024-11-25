@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:48 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/10/29 07:56:57 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:33:01 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../get_next_line/get_next_line.h"
 # include "../lib/Libft/libft.h"
-# include "cub3d.h"
+# include "../lib/MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -32,11 +32,17 @@ typedef enum e_types
 	INVALID
 }					t_type;
 
+typedef struct s_pos
+{
+	double			x;
+	double			y;
+}					t_pos;
+
 typedef struct s_colors
 {
-	unsigned char	red;
-	unsigned char	green;
-	unsigned char	blue;
+	int				red;
+	int				green;
+	int				blue;
 }					t_colors;
 
 typedef struct s_mapp
@@ -49,10 +55,14 @@ typedef struct s_components_list
 {
 	t_colors		*floor_color;
 	t_colors		*ceiling_color;
-	char			*west_texture;
-	char			*east_texture;
-	char			*north_texture;
-	char			*south_texture;
+	char			*path_to_west_texture;
+	char			*path_to_east_texture;
+	char			*path_to_north_texture;
+	char			*path_to_south_texture;
+	mlx_texture_t	*west_texture;
+	mlx_texture_t	*east_texture;
+	mlx_texture_t	*north_texture;
+	mlx_texture_t	*south_texture;
 	t_mapp			*map;
 }					t_components;
 
@@ -66,5 +76,6 @@ char				**list_to_array(t_mapp *head, int max_length);
 int					get_max_string_length(t_mapp *head);
 void				determine_player_pos(t_pos *pos, char **arr);
 bool				is_a_position_char(char c);
+int					get_color(t_colors *color);
 
 #endif

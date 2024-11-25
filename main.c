@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/25 15:18:12 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:59:12 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void draw_background(t_game *game)
 		while (j < WIDTH)
 		{
 			if (i < HEIGHT / 2)
-				mlx_put_pixel(game->win.img, j, i, 0x00FFFFFF);
+				mlx_put_pixel(game->win.img, j, i, game->ceiling_color);
 			else
-				mlx_put_pixel(game->win.img, j, i, 0x000000FF);
+				mlx_put_pixel(game->win.img, j, i, game->floor_color);
 			j++;
 		}
 		i++;
@@ -97,6 +97,8 @@ int	main(int ac, char **av)
 	if (!(parse_the_file(av[1], &components)))
 		return -1;
 	game.components = &components;
+	game.floor_color = get_color(components.floor_color);
+	game.ceiling_color = get_color(components.ceiling_color);
 	game.map.grid = list_to_array(components.map, get_max_string_length(components.map));
 	init_window(&game.win);
 	init_map(&game.map, get_max_string_length(components.map), get_y(components.map));

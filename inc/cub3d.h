@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/04 16:59:33 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:23:04 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ typedef struct s_ray
 	t_pos			wall_hit;
 	int				color;
 	int				was_hit_vertical;
-
+	bool			found_hor_wall_hit;
+	bool			found_ver_wall_hit;
 }					t_ray;
 
 typedef struct s_wall

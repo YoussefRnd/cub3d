@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:27:23 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/23 21:23:47 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:14:48 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,17 @@ void	cast_rays(t_game *game)
 	double	ray_angle;
 	double	ray_angle_step;
 	int		i;
+	double	fov;
 
+	fov = 60 * (M_PI / 180);
 	if (game->win.img)
 		mlx_delete_image(game->win.mlx, game->win.img);
 	game->win.img = mlx_new_image(game->win.mlx, WIDTH, HEIGHT);
 	if (!game->win.img)
 		exit(EXIT_FAILURE);
 	draw_background(game);
-	ray_angle = game->player.angle - (FOV / 2);
-	ray_angle_step = FOV / WIDTH;
+	ray_angle = game->player.angle - (fov / 2);
+	ray_angle_step = fov / WIDTH;
 	i = 0;
 	while (i < WIDTH)
 	{

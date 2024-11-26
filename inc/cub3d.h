@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/26 19:06:02 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:27:54 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,8 @@
 # define TILE_SIZE 30
 # define PLAYER_SIZE 7
 # define PLAYER_SPEED 4
-# define FOV 60 * (M_PI / 180)
 # define WIDTH 1920
 # define HEIGHT 1080
-
-# define MINIMAP_WIDTH (WIDTH / 5)
-# define MINIMAP_HEIGHT (HEIGHT / 5)
-
 # define WALL_COLOR 0xFF0000FF
 # define FLOOR_COLOR 0xFFFFFFFF
 # define PLAYER_COLOR 0x00FF00FF

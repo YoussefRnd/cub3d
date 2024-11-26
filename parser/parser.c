@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/11/25 18:53:48 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/26 16:32:09 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,6 +391,7 @@ bool	fill_it(int fd, t_components *comps)
 		temp = trim_white_spaces(line);
 		if (ft_strlen(temp) == 0)
 		{
+			free_and_set_to_null(&line);
 			free_and_set_to_null(&temp);
 			continue ;
 		}
@@ -406,13 +407,14 @@ bool	fill_it(int fd, t_components *comps)
 			return (free_and_set_to_null(&line), return_bool_nd_free(false,
 					&temp));
 		}
-		else if (info_type == INVALID)
+		if (info_type == INVALID)
 			return (free_and_set_to_null(&line), return_bool_nd_free(false,
 					&temp));
 		if (!fill_container(info_type, temp, comps))
 			return (free_and_set_to_null(&line), return_bool_nd_free(false,
 					&temp));
 		free_and_set_to_null(&line);
+		free_and_set_to_null(&temp);
 	}
 	return (false);
 }

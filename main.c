@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/25 18:56:01 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/26 16:22:59 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,18 @@ int get_y(t_mapp *head)
 	return height;
 }
 
+void leaks()
+{
+    system("leaks cub3D");
+}
+
 int	main(int ac, char **av)
 {
 	t_game	game;
 	t_components components;
 
 	(void)ac;
+    atexit(leaks);
 	if (!(parse_the_file(av[1], &components)))
 		return -1;
 	game.components = &components;

@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 04:48:05 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/11/04 21:57:23 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/26 17:49:42 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ double	get_y_in_texture(t_game *game, double wall_hit, mlx_texture_t *texture)
 	return (y);
 }
 
-double	get_x_in_texture(t_game *game,mlx_texture_t *texture)
+double	get_x_in_texture(t_game *game, mlx_texture_t *texture)
 {
 	double	x;
 
@@ -35,28 +35,24 @@ double	get_x_in_texture(t_game *game,mlx_texture_t *texture)
 
 int	get_pixel_from_buffer(double x, double y, mlx_texture_t *texture)
 {
-	uint8_t	*pixels;
-	int		texture_width;
-	int		bytes_per_pixel;
-	int		x_int;
-	int		y_int;
-	int		index;
-	uint8_t	*rgba;
+	t_PixelData	data;
 
-	pixels = texture->pixels;
-	texture_width = texture->width;
-	bytes_per_pixel = texture->bytes_per_pixel;
-	x_int = (int)x;
-	y_int = (int)y;
-	index = (y_int * texture_width + x_int) * bytes_per_pixel;
-	rgba = &pixels[index];
-	return ((rgba[0] << 24) | (rgba[1] << 16) | (rgba[2] << 8) | rgba[3]);
+	data.pixels = texture->pixels;
+	data.texture_width = texture->width;
+	data.bytes_per_pixel = texture->bytes_per_pixel;
+	data.x_int = (int)x;
+	data.y_int = (int)y;
+	data.index = (data.y_int * data.texture_width + data.x_int)
+		* data.bytes_per_pixel;
+	data.rgba = &data.pixels[data.index];
+	return ((data.rgba[0] << 24) | (data.rgba[1] << 16)
+		| (data.rgba[2] << 8) | data.rgba[3]);
 }
 
 void	get_the_right_texture(t_game *game, mlx_texture_t **texture)
 {
 	if (!game->ray.was_hit_vertical)
-	{	
+	{
 		if (game->ray.is_facing_up)
 			*texture = game->components->north_texture;
 		else if (game->ray.is_facing_down)
@@ -67,15 +63,14 @@ void	get_the_right_texture(t_game *game, mlx_texture_t **texture)
 		if (game->ray.is_facing_left)
 			*texture = game->components->west_texture;
 		else if (game->ray.is_facing_right)
-			*texture = game->components->east_texture;	
+			*texture = game->components->east_texture;
 	}
 }
 
-
 int	get_texture_color(t_game *game, double y_in_wall)
 {
-	double	x_in_texture;
-	double	y_in_texture;
+	double			x_in_texture;
+	double			y_in_texture;
 	mlx_texture_t	*texture;
 
 	get_the_right_texture(game, &texture);

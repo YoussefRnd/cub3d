@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 10:31:55 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/11/25 17:32:42 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/26 17:44:32 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,29 @@ void	free_and_set_to_null(char **ptr)
 
 char	*trim_white_spaces(char *str)
 {
-	char	*trimmed_str;
+	char			*trimmed_str;
+	t_TrimIndices	indices;
 
-	int start, end, i;
 	if (str == NULL)
 		return (NULL);
-	start = 0;
-	while (str[start] && (str[start] == ' ' || str[start] == '\t' || str[start] == '\n'))
-		start++;
-	end = ft_strlen(str) - 1;
-	while (end > start && (str[end] == ' ' || str[end] == '\t' || str[end] == '\n'))
-		end--;
-	trimmed_str = malloc(end - start + 2);
+	indices.start = 0;
+	while (str[indices.start] && (str[indices.start] == ' '
+			|| str[indices.start] == '\t' || str[indices.start] == '\n'))
+		indices.start++;
+	indices.end = ft_strlen(str) - 1;
+	while (indices.end > indices.start && (str[indices.end] == ' '
+			|| str[indices.end] == '\t' || str[indices.end] == '\n'))
+		indices.end--;
+	trimmed_str = malloc(indices.end - indices.start + 2);
 	if (trimmed_str == NULL)
 		return (NULL);
-	i = start;
-	while (i <= end)
+	indices.i = indices.start;
+	while (indices.i <= indices.end)
 	{
-		trimmed_str[i - start] = str[i];
-		i++;
+		trimmed_str[indices.i - indices.start] = str[indices.i];
+		indices.i++;
 	}
-	trimmed_str[i - start] = '\0';
+	trimmed_str[indices.i - indices.start] = '\0';
 	return (trimmed_str);
 }
 
@@ -60,48 +62,9 @@ int	ft_isspace(int c)
 		|| c == '\f');
 }
 
-int	ft_super_atoi(const char *str)
+void	initialize_indices(t_AtoiIndices *indices)
 {
-	int i = 0;
-	int num = 0;
-	int sign = 1;
-
-	while (ft_isspace(str[i]))
-		i++;
-	if(ft_strlen(&str[i]) > 3)
-		return (-1);
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
-	if (!ft_isdigit(str[i]))
-		return (-1);
-	while (ft_isdigit(str[i]))
-	{
-		num = num * 10 + (str[i] - '0');
-		i++;
-	}
-	if (str[i] != '\0')
-		return (-1);
-	num *= sign;
-	return (num);
-}
-
-char *ft_strncpy(char *dest, const char *src, size_t n)
-{
-	size_t i = 0;
-
-	while (i < n && src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	while (i < n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
-	return dest;
+	indices->i = 0;
+	indices->num = 0;
+	indices->sign = 1;
 }

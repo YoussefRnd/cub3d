@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/25 17:49:21 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:07:51 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,16 @@ void	draw_background(t_game *game)
 	}
 }
 
+void leaks(void)
+{
+	system("leaks cub3d");
+}
+
 int	main(void)
 {
 	t_game	game;
 
+	
 	init_window(&game.win);
 	init_map(&game.map);
 	init_player(&game.player);
@@ -90,4 +96,5 @@ int	main(void)
 	draw_minimap(&game);
 	init_events(&game);
 	mlx_loop(game.win.mlx);
+	leaks();
 }

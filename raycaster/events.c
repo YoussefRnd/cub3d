@@ -6,7 +6,7 @@
 /*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 19:45:20 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/23 21:22:22 by yboumlak         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:11:00 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,22 @@ void	handle_keys(t_game *game)
 
 void	handle_cursor(t_game *game)
 {
-	int		center_x;
-	int32_t	x;
-	int32_t	y;
+	int			center_x;
+	int32_t		x;
+	int32_t		y;
+	static int	i = 0;
 
 	center_x = WIDTH / 2;
-	mlx_get_mouse_pos(game->win.mlx, &x, &y);
-	if (x > 0)
-		game->player.angle += (x - center_x) * 0.001;
+	if (i != 2)
+		i++;
 	else
-		game->player.angle -= (center_x - x) * 0.001;
+	{
+		mlx_get_mouse_pos(game->win.mlx, &x, &y);
+		if (x > 0)
+			game->player.angle += (x - center_x) * 0.001;
+		else
+			game->player.angle -= (center_x - x) * 0.001;
+	}
 	mlx_set_mouse_pos(game->win.mlx, center_x, HEIGHT / 2);
 }
 

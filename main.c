@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/26 16:22:59 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:13:48 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "inc/parsing.h"
 #include "raycaster/raycaster.h"
 
-void draw_background(t_game *game)
+void	draw_background(t_game *game)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < HEIGHT)
@@ -35,30 +35,31 @@ void draw_background(t_game *game)
 	}
 }
 
-void	init_map(t_map *map,int x,int y)
+void	init_map(t_map *map, int x, int y)
 {
 	map->size.x = x;
 	map->size.y = y;
 }
 
-
 char	get_player_orientation(char **map)
 {
-	int i = 0;
-	int j = 0;
+	int	i;
+	int	j;
 
-	while(map[i])
+	i = 0;
+	j = 0;
+	while (map[i])
 	{
 		j = 0;
-		while(map[i][j])
+		while (map[i][j])
 		{
 			if (is_a_position_char(map[i][j]))
-				return map[i][j];
+				return (map[i][j]);
 			j++;
 		}
 		i++;
 	}
-	return 'N';
+	return ('N');
 }
 
 void	init_player(t_player *player, char **map)
@@ -77,37 +78,22 @@ void	init_player(t_player *player, char **map)
 		player->angle = 180 * (M_PI / 180);
 }
 
-int get_y(t_mapp *head)
-{
-	int height = 0;
-	while (head)
-	{
-		height++;
-		head = head->next;
-	}
-	return height;
-}
-
-void leaks()
-{
-    system("leaks cub3D");
-}
-
 int	main(int ac, char **av)
 {
-	t_game	game;
-	t_components components;
+	t_game			game;
+	t_components	components;
 
 	(void)ac;
-    atexit(leaks);
 	if (!(parse_the_file(av[1], &components)))
-		return -1;
+		return (-1);
 	game.components = &components;
 	game.floor_color = get_color(components.floor_color);
 	game.ceiling_color = get_color(components.ceiling_color);
-	game.map.grid = list_to_array(components.map, get_max_string_length(components.map));
+	game.map.grid = list_to_array(components.map,
+			get_max_string_length(components.map));
 	init_window(&game.win);
-	init_map(&game.map, get_max_string_length(components.map), get_y(components.map));
+	init_map(&game.map, get_max_string_length(components.map),
+		get_y(components.map));
 	init_player(&game.player, game.map.grid);
 	draw_minimap(&game);
 	draw_player(&game);

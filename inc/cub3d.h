@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:24:56 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/25 17:24:59 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:06:02 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include "parsing.h"
 # include <fcntl.h>
 # include <math.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -35,12 +34,6 @@
 # define WALL_COLOR 0xFF0000FF
 # define FLOOR_COLOR 0xFFFFFFFF
 # define PLAYER_COLOR 0x00FF00FF
-
-// typedef struct s_pos
-// {
-// 	double			x;
-// 	double			y;
-// }					t_pos;
 
 typedef struct s_player
 {
@@ -97,8 +90,8 @@ typedef struct s_game
 	int				floor_color;
 }					t_game;
 
-// void				put_on_textures(t_game *game);
+
 int					get_texture_color(t_game *game, double y_in_wall);
-int	get_length(char *array[]);
+int					get_length(char *array[]);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:48 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/11/26 18:14:56 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:07:40 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ typedef enum e_types
 	INVALID
 }					t_type;
 
-typedef struct
+typedef struct s_trimindices
 {
 	int				start;
 	int				end;
 	int				i;
 }					t_TrimIndices;
 
-typedef struct
+typedef struct s_atoiindices
 {
 	int				i;
 	int				num;
@@ -78,7 +78,7 @@ typedef struct s_components_list
 	t_mapp			*map;
 }					t_components;
 
-typedef struct
+typedef struct s_pixeldata
 {
 	uint8_t			*pixels;
 	int				texture_width;

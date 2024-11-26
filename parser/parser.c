@@ -6,7 +6,7 @@
 /*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:41:06 by hbrahimi          #+#    #+#             */
-/*   Updated: 2024/11/26 16:32:09 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/26 16:49:12 by hbrahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -708,6 +708,7 @@ void free_mapp(t_mapp **head)
 
 void free_mlx_texture(mlx_texture_t **texture)
 {
+	free((*texture)->pixels);
 	free(*texture);
 	*texture = NULL;
 }
@@ -749,19 +750,19 @@ bool	parse_the_file(char *path, t_components *comps)
 		return false;
 	if (!fill_it(fd, comps))
 	{
-		perror("Error");
+		ft_putstr_fd("Error\nfailed filling components\n", 2);
 		free_comps(comps);
 		return false;
 	}
 	if (!check_validity_of_textures(comps))
 	{
-		perror("Error");
+		ft_putstr_fd("Error\ninvalid texture\n", 2);
 		free_comps(comps);
 		return false;
 	}
 	if (!check_validity_of_map(comps->map))
 	{
-		perror("Error");
+		ft_putstr_fd("Error\ninvalid map\n", 2);
 		free_comps(comps);
 		return false;
 	}

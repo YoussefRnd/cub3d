@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbrahimi <hbrahimi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yboumlak <yboumlak@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:20:55 by yboumlak          #+#    #+#             */
-/*   Updated: 2024/11/26 18:13:48 by hbrahimi         ###   ########.fr       */
+/*   Updated: 2024/11/27 07:05:51 by yboumlak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,11 @@ int	main(int ac, char **av)
 	t_game			game;
 	t_components	components;
 
-	(void)ac;
+	if (ac != 3)
+	{
+		ft_putstr_fd("Error\nInvalid number of arguments\n", 2);
+		return (-1);
+	}
 	if (!(parse_the_file(av[1], &components)))
 		return (-1);
 	game.components = &components;
